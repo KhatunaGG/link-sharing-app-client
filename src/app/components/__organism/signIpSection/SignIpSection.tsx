@@ -1,10 +1,11 @@
-import React from "react";
-import Title from "../../__molecules/logo/Logo";
+"use client";
+import { Logo } from "../../__molecules";
+import Form from "../form/Form";
 
 const SignIpSection = () => {
   return (
     <section className=" rounded-xl w-[82.93%] md:w-[61.87%] lg:w-[33.05%] ">
-      <Title />
+      <Logo />
       <div className="bg-white w-full md:p-10 flex flex-col gap-10 rounded-lg">
         <div className="flex flex-col gap-2">
           <h1 className="font-bold text-2xl md:text-[32px] leading-[1.5] text-[#333333]">
@@ -15,7 +16,7 @@ const SignIpSection = () => {
           </p>
         </div>
 
-        {/* <Form /> */}
+        <Form />
       </div>
     </section>
   );
