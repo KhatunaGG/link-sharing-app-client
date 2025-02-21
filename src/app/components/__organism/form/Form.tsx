@@ -1,9 +1,12 @@
 "use client"
 import Image from "next/image";
+import OtpCodeModal from "../../__molecules/otpCodeModal/OtpCodeModal";
+
 
 const Form = () => {
   return (
-    <form className="w-full flex flex-col gap-6">
+    <form className="w-full flex flex-col gap-6 relative">
+      <OtpCodeModal />
       <div className="w-full flex flex-col gap-1">
         <label
           htmlFor=""
