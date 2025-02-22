@@ -1,7 +1,6 @@
 "use client";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -27,7 +26,6 @@ const OtpCodeModal = ({
   email,
 }: OtpCodeModalPropsType) => {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
-  const router = useRouter();
   const [otpCodeState, setOtpCodeState] = useState<string>("");
 
   const {
@@ -42,7 +40,7 @@ const OtpCodeModal = ({
       otpCode: "",
     },
   });
-  console.log(errors)
+  console.log(errors);
 
   const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
     e.target.select();
@@ -73,7 +71,7 @@ const OtpCodeModal = ({
       };
       const res = await axiosInstance.post("/auth/verify", newState);
       if (res.status >= 200 && res.status <= 204) {
-        router.push("/signIn");
+        // router.push("/signIn");
         setOtpCodeModal(false);
         reset();
       }

@@ -134,7 +134,7 @@ export const confirmPasswordSchema = z
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ["confirmPassword"],
-        message: "Passwords don't match"
+        message: "Passwords don't match",
       });
     }
   });
