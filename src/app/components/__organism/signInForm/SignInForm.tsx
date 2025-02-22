@@ -1,10 +1,14 @@
+"use client";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import SignInInput from "../signInInput/SignInInput";
 import SignInPassword from "../signInPassword/SignInPassword";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { axiosInstance } from "@/app/libs/axiosInstance";
+import { useRouter } from "next/navigation";
+import { setCookie } from "cookies-next";
 
 export const signInSchema = z.object({
   email: z.string().email(),
@@ -17,10 +21,12 @@ export const signInSchema = z.object({
 export type SignInFormData = z.infer<typeof signInSchema>;
 
 const SignInForm = () => {
+  const [accessToken, setAccessToken] = useState("");
+  const router = useRouter();
   const {
     register,
     handleSubmit,
-    // reset,
+    reset,
     formState: { errors },
   } = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
@@ -29,10 +35,35 @@ const SignInForm = () => {
       password: "",
     },
   });
-
   const onSubmit = async (formState: SignInFormData) => {
-    console.log(formState, "formState")
+    console.log(formState, "formState");
+    try {
+      const res = await axiosInstance.post("/auth/sign-in", formState, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      //   if (res.status >= 200 && res.status <= 204) {
+      //     router.push("/dashboard");
+      //     reset();
+      //   }
+
+      if (res.status >= 200 && res.status <= 204) {
+        const token = res.data.accessToken;
+        setAccessToken(token);
+        setCookie("accessToken", token, { maxAge: 60 * 60 });
+        if (token) {
+          router.push("/dashboard");
+        }
+        reset();
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
+  if (!accessToken) return null;
+
   return (
     <form
       onClick={handleSubmit(onSubmit)}

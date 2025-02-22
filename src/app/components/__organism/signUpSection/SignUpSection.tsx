@@ -8,7 +8,7 @@ const SignUpSection = () => {
   const [otpCode, setOtpCode] = useState("");
   const [otpCodeModal, setOtpCodeModal] = useState(false);
   const [email, setEmail] = useState("");
-console.log(otpCode, "otpCode")
+  console.log(otpCode, "otpCode");
 
   return (
     <section className="w-full h-full bg-transparent flex items-center justify-center">
