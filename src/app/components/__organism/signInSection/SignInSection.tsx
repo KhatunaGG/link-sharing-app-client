@@ -38,7 +38,7 @@ const SignInSection = () => {
         <Logo />
         <div className="bg-white p-4 w-full md:p-10 flex flex-col gap-10 rounded-lg shadow-xl">
           <Title isSignInSection={isSignInSection} />
-          <div className="w-full relative ">
+          <div className="w-full relative">
             <SignInForm />
           </div>
         </div>

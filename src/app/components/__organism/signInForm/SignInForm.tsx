@@ -35,6 +35,7 @@ const SignInForm = () => {
       password: "",
     },
   });
+
   const onSubmit = async (formState: SignInFormData) => {
     console.log(formState, "formState");
     try {
@@ -43,11 +44,6 @@ const SignInForm = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-
-      //   if (res.status >= 200 && res.status <= 204) {
-      //     router.push("/dashboard");
-      //     reset();
-      //   }
 
       if (res.status >= 200 && res.status <= 204) {
         const token = res.data.accessToken;
@@ -62,12 +58,13 @@ const SignInForm = () => {
       console.log(e);
     }
   };
-  if (!accessToken) return null;
+  // if (!accessToken) return null;
 
   return (
     <form
-      onClick={handleSubmit(onSubmit)}
-      className="w-full flex flex-col gap-6"
+      // onClick={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmit)}
+      className="w-full flex flex-col gap-6 h-full"
     >
       <SignInInput register={register} errors={errors} />
       <SignInPassword register={register} errors={errors} />
