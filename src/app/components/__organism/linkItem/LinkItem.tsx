@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Select from "../select/Select";
+import { Input } from "../../__molecules";
 
 const LinkItem = () => {
   return (
@@ -19,15 +21,12 @@ const LinkItem = () => {
           </p>
         </div>
 
-        <p className="text-base font-normal leading-[24px] text-[#737373]">Remove</p>
+        <p className="text-base font-normal leading-[24px] text-[#737373]">
+          Remove
+        </p>
       </div>
-
-
-
-
-
-
-      
+      <Select />
+      <Input />
     </section>
   );
 };
