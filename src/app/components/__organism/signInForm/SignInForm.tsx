@@ -74,7 +74,7 @@ const SignInForm = () => {
       </p>
       <button
         type="submit"
-        className="w-full bg-[#633CFF] rounded-lg py-[11px] text-white text-base leading-[24px] font-semibold hover:bg-[#633CFF]/50 transition duration-300 ease-in-out"
+        className="w-full bg-[#633CFF] rounded-lg py-[11px] text-white text-base leading-[24px] font-semibold hover:bg-[#BEADFF] transition duration-300 ease-in-out"
       >
         Login
       </button>

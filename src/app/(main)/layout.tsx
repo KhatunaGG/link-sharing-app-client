@@ -16,9 +16,11 @@ export default function MainLayout({
     <html lang="en">
       <body>
         <Header />
-        <section className="w-full min-h-[calc(100vh-126px)] bg-green-200 flex items-start justify-between p-4 md:p-6 ">
-          <div className="w-full  flex items-start lg:gap-[1.72%] ">
-            <SideBar />
+        <section className="w-full  bg-[#FAFAFA]  flex items-start justify-center p-4 md:p-6">
+          <div className="w-full  flex items-stretch lg:gap-[1.72%] ">
+            <div className="hidden w-full  bg-white lg:flex lg:w-[40.23%] rounded-[12px] shadow-xl overflow-hidden">
+              <SideBar />
+            </div>
             <div className="w-full lg:w-[58.05%]">{children}</div>
           </div>
         </section>
