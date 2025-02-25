@@ -1,32 +1,52 @@
+"use client";
 import Image from "next/image";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { LinkItemType } from "../../__organism/links/Links";
+import { FC } from "react";
 
-const Input = () => {
-  return (
-    <div className="w-full">
-      <label
-        htmlFor="link"
-        className="text-[#333333] text-xs font-normal leading-[18px]"
-      >
-        Link
-      </label>
+export type InputPropsType = {
+  register?: UseFormRegister<LinkItemType>;
+  errors?: FieldErrors<LinkItemType>;
 
-      <div className="w-full relative">
-        <input
-          type="text"
-          className="w-full text-[#333333] text-base font-normal leading-[18px] py-3 pl-4 rounded-[8px] outline-none "
-        />
 
-        <Image
-          src={"/assets/icons/icon-link.svg"}
-          alt={"logo"}
-          width={16}
-          height={16}
-          sizes="(max-width: 768px) 16px, 16px"
-          className="absolute top-1/2 left-4 z-10 transform -translate-y-1/2"
-        />
-      </div>
-    </div>
-  );
+
+ 
+  link?: string
 };
+
+const Input: FC<InputPropsType> = ({ register, errors, link }) => {
+    return (
+      <div className="w-full">
+        <label
+          htmlFor="link"
+          className="text-[#333333] text-xs font-normal leading-[18px]"
+        >
+          Link
+        </label>
+  
+        <div className="w-full relative">
+          <input
+            {...register?.("link")}
+            type="text"
+            className="w-full text-[#333333] text-base font-normal leading-[18px] py-3 pl-10 rounded-[8px] outline-none "
+            defaultValue={link || ""} 
+          />
+  
+          <Image
+            src={"/assets/icons/icon-link.svg"}
+            alt={"logo"}
+            width={16}
+            height={16}
+            sizes="(max-width: 768px) 16px, 16px"
+            className="absolute top-1/2 left-4 z-10 transform -translate-y-1/2 "
+          />
+        </div>
+        {errors?.link && (
+          <span className="text-red-500 text-sm">{errors.link.message}</span>
+        )}
+      </div>
+    );
+  };
+  
 
 export default Input;

@@ -16,7 +16,7 @@ const useAccessToken = () => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<UserType | null>(null);
-  console.log(accessToken, "accessToken from HOOK")
+
 
   const getCurranUser = async (accessToken: string | undefined) => {
     try {
