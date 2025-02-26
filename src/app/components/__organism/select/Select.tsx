@@ -159,8 +159,8 @@ const Select: FC<SelectPropsType> = ({
 
   const handleSelectPlatform = (platform: string) => {
     setSelectedPlatform(platform);
-    setValue?.("name", platform); // Set value for "name"
-    setDropDown?.(false); // Close dropdown
+    setValue?.("name", platform); 
+    setDropDown?.(false); 
   };
 
   return (
@@ -174,7 +174,7 @@ const Select: FC<SelectPropsType> = ({
 
       <div className="w-full relative">
         <input
-          {...register?.("name")} // Registering the select input correctly
+          {...register?.("name")} 
           type="text"
           onChange={(e) => setSelectedPlatform(e.target.value)}
           value={selectedPlatform}
