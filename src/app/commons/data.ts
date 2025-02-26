@@ -8,7 +8,6 @@ export const platformData = [
   "Twitch",
   "Dev.to",
   "Codewars",
-  // "Codepen",
   "freeCodeCamp",
   "GitLab",
   "Hashnode",

@@ -50,15 +50,15 @@
 // export default Links;
 
 "use client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import EmptyLinkPage from "../emptyLinkPage/EmptyLinkPage";
 import LinkItem from "../linkItem/LinkItem";
-
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import useAccessToken from "@/app/hooks/use-token";
+import { MainContext } from "@/app/context/context";
 
 // export type LinkItemType = {
 //   name: string;
@@ -76,16 +76,20 @@ export type LinksDataType = {
   link: string;
   _id: string;
   color: string;
-}
+};
 
 const Links = () => {
-  const [linkData, setLinkData] = useState<LinksDataType[]>([]);
+  // const [linkData, setLinkData] = useState<LinksDataType[]>([]);
   const [showLink, setShowLink] = useState(false);
   const [dropDown, setDropDown] = useState(false);
   const { accessToken } = useAccessToken();
-  const [length, setLength] = useState(0);
-  console.log(length, "length");
-  console.log(showLink, "showLink");
+  // const [length, setLength] = useState(0);
+  // const {linkData, length, getAllLinks } = useLinkData()
+
+  // console.log(length, "length")
+  // console.log("linkData from LINKS:", linkData)
+  const context = useContext(MainContext);
+  const { getAllLinks, linkData, length } = context || {};
 
   const {
     register,
@@ -101,40 +105,36 @@ const Links = () => {
     },
   });
 
-  const getAllLinks = async () => {
-    if (!accessToken) return;
-    try {
-      const res = await axiosInstance.get("link", {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-      if (res.status >= 200 && res.status <= 204) {
-        console.log(res.data, "DATAAAAAAAAAAAAA");
-        setLinkData(res.data);
-        setLength(res.data.length);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const getAllLinks = async () => {
+  //   if (!accessToken) return;
+  //   try {
+  //     const res = await axiosInstance.get("link", {
+  //       headers: { Authorization: `Bearer ${accessToken}` },
+  //     });
+  //     if (res.status >= 200 && res.status <= 204) {
+  //       console.log(res.data, "DATAAAAAAAAAAAAA");
+  //       setLinkData(res.data);
+  //       setLength(res.data.length);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   useEffect(() => {
-    getAllLinks();
-    setLength(linkData.length);
+    getAllLinks?.();
+    // setLength(linkData.length);
   }, [accessToken]);
 
   const onSubmit = async (formState: LinkItemType) => {
-
-
     try {
       const res = await axiosInstance.post("/link", formState, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       if (res.status >= 200 && res.status <= 204) {
-        console.log(res.data, "res.data");
         reset();
-
         setShowLink(false);
-        getAllLinks();
+        getAllLinks?.();
       }
     } catch (error) {
       console.log(error);
@@ -142,6 +142,8 @@ const Links = () => {
   };
 
   if (!accessToken) return null;
+
+  if (!context) return null;
 
   return (
     <section className="w-full ">
@@ -175,7 +177,7 @@ const Links = () => {
                 <EmptyLinkPage
                 //  showLink={showLink}
                 //   length={length}
-                   />
+                />
               ) : length === 0 && showLink ? (
                 <LinkItem
                   register={register}
@@ -184,7 +186,8 @@ const Links = () => {
                   dropDown={dropDown}
                   setValue={setValue}
                 />
-              ) : length > 0 && !showLink ? null : length > 0 && showLink ? (
+              ) : (length ?? 0) > 0 && !showLink ? null : (length ?? 0) > 0 &&
+                showLink ? (
                 <LinkItem
                   register={register}
                   errors={errors}
@@ -194,28 +197,16 @@ const Links = () => {
                 />
               ) : null}
 
-              {/* <EmptyLinkPage showLink={showLink} length={length} /> */}
-
               <div className="w-full bg-white flex flex-col gap-6 overflow-y-auto max-h-[calc(100vh-470px)] bg-green-300">
-                {/* {showLink && (
-                  <LinkItem
-                    register={register}
-                    errors={errors}
-                    setDropDown={setDropDown}
-                    dropDown={dropDown}
-                    setValue={setValue}
-                  />
-                )} */}
-
-                {length > 0 &&
-                  linkData.map((link, i) => (
+                {(length ?? 0) > 0 &&
+                  linkData?.map((link, i) => (
                     <LinkItem
-                    index={i + 1}
-                    key={link._id}
-                    name={link.name}
-                    link={link.link}
-                    // id={link._id}
-                    // color={color}
+                      index={i + 1}
+                      key={link._id}
+                      name={link.name}
+                      link={link.link}
+                      // id={link._id}
+                      // color={color}
                     />
                   ))}
               </div>
