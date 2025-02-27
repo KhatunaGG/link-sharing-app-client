@@ -1,38 +1,15 @@
-// import Image from "next/image";
-
-// const SideBar = () => {
-//   return (
-//     <div className="hidden w-full h-full lg:w-[40.23%] lg:flex items-center justify-center bg-white rounded-[12px] shadow-xl">
-//       <div className="w-[286px] h-[611px] relative">
-//         <Image
-//           src={"/assets/images/illustration-phone-mockup.svg"}
-//           alt={"logo"}
-//           fill
-//           sizes="(max-width: 768px) 100px, 135px"
-//         />
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default SideBar;
-
 "use client";
 import { MainContext } from "@/app/context/context";
-// import useLinkData, { LinksDataType } from "@/app/hooks/use-data";
-// import useAccessToken from "@/app/hooks/use-token";
-// import { axiosInstance } from "@/app/libs/axiosInstance";
+import useAccessToken from "@/app/hooks/use-token";
 import Image from "next/image";
 import { useContext } from "react";
+import { ArrowRightDark } from "../../__atoms";
 
 const SideBar = () => {
-  // const [slicedLinkData, setSlicedLinkData] = useState<LinksDataType[]>([]);
-  // const [modifiedData, setModifiedData] = useState<LinksDataType[]>([]);
-  //  const { accessToken } = useAccessToken();
-  // const { linkData, length } = useLinkData();
-
   const context = useContext(MainContext);
   const { linkData } = context || {};
+  const { user } = useAccessToken();
+
   const getIconName = (platform: string): string => {
     const iconMap: { [key: string]: string } = {
       "Dev.to": "devto",
@@ -85,17 +62,27 @@ const SideBar = () => {
           fill
           sizes="(max-width: 768px) 100px, 135px"
         />
+        <div className="w-[96px] h-[96px] rounded-full"></div>
 
-        <div className="absolute top-[43.97%] min-h-[280px] left-[11.23%] right-[11.23%] z-20 w-[77.19%] h-[47.54&] gap-[16px] flex flex-col items-center justify-start border  rounded-[8px] bg-transparent">
+        <div className="absolute top-[31%] text-sm font-semibold px-2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-20 w-[59%] flex  items-center justify-center rounded-[8px] bg-[#D9D9D9] bg-transparent">
+          {user?.userName}
+        </div>
+
+        <div className="absolute top-[35%] w-max text-xs font-normal px-2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-20 flex  items-center justify-center rounded-[8px] bg-[#D9D9D9] ">
+          {user?.email}
+        </div>
+
+        <div className="absolute top-[43.97%] min-h-[280px] left-[11.23%] right-[11.23%] z-20 w-[77.19%] h-[47.54&] gap-[16px] flex flex-col items-center justify-start  rounded-[8px] bg-transparent">
           {linkData &&
-            linkData.map((link) => {
+            linkData.slice(-5).map((link) => {
               const iconName = getIconName(link.name);
               const color = getPlatformColor(link.name);
+              const isFrMentor = link.name === "Frontend Mentor";
               return (
                 <div
                   key={link._id}
                   style={{ background: color }}
-                  className={`w-full rounded-[8px] border text-xs font-normal leading-[18px] py-[11px] px-10 flex items-center justify-between`}
+                  className={`w-full rounded-[8px] border text-xs font-normal leading-[18px] py-[11px] px-10 flex items-center justify-between cursor-pointer`}
                 >
                   <div className="w-full flex items-center  gap-2">
                     <Image
@@ -104,18 +91,15 @@ const SideBar = () => {
                       width={20}
                       height={20}
                     />
-                    <p className="text-white text-xs leading-[18px] font-normal">
+                    <p
+                      className={`text-xs leading-[18px] font-normal ${
+                        isFrMentor ? "text-[#333333]" : "text-white"
+                      }`}
+                    >
                       {link.name}
                     </p>
                   </div>
-                  <div className="w-4 h-4 relative">
-                    <Image
-                      src={`/assets/icon-arrow-right.svg`}
-                      alt={"icon-arrow"}
-                      width={16}
-                      height={16}
-                    />
-                  </div>
+                  <ArrowRightDark isFrMentor={isFrMentor} />
                 </div>
               );
             })}
