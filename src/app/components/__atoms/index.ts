@@ -1,0 +1,1 @@
+export { default as ArrowRightDark } from './arrowRightDark/ArrowRightDark'
