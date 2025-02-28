@@ -1,9 +1,13 @@
+"use client";
 import Image from "next/image";
 import Select from "../select/Select";
 import { Input } from "../../__molecules";
-import { FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form";
-import { Dispatch, FC, SetStateAction } from "react";
+import { FieldErrors, UseFormRegister, UseFormReset, UseFormSetValue } from "react-hook-form";
+import { Dispatch, FC, SetStateAction, useContext } from "react";
 import { LinkItemType } from "../links/Links";
+import { axiosInstance } from "@/app/libs/axiosInstance";
+import useAccessToken from "@/app/hooks/use-token";
+import { MainContext } from "@/app/context/context";
 
 export type LinkItemPropsType = {
   register?: UseFormRegister<LinkItemType>;
@@ -14,7 +18,9 @@ export type LinkItemPropsType = {
   name?: string;
   link?: string;
   index?: number;
-  trigger?:  () => Promise<boolean>;
+  trigger?: () => Promise<boolean>;
+  id?: string;
+  reset?: UseFormReset<LinkItemType>
 };
 
 const LinkItem: FC<LinkItemPropsType> = ({
@@ -27,7 +33,32 @@ const LinkItem: FC<LinkItemPropsType> = ({
   name,
   link,
   index,
+  id,
+  reset
 }) => {
+  const { accessToken } = useAccessToken();
+  const context = useContext(MainContext);
+  const { getAllLinks } = context || {};
+
+  const removeLink = async (id: string) => {
+    if (!accessToken) return null;
+    try {
+      console.log(id, "id from remove");
+      const res = await axiosInstance.delete(`/link/${id}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      if (res.status >= 200 && res.status <= 204) {
+        console.log(res.data, "res.data");
+        getAllLinks?.();
+        reset?.()
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+
   return (
     <section className="w-full bg-[#FAFAFA] p-[20px] rounded-[12px] flex flex-col gap-3">
       <div className="w-full flex items-center justify-between">
@@ -46,12 +77,14 @@ const LinkItem: FC<LinkItemPropsType> = ({
           </p>
         </div>
 
-        <button className="text-base font-normal leading-[24px] text-[#737373]">
+        <button
+          onClick={() => removeLink(id || "")}
+          className="text-base font-normal leading-[24px] text-[#737373]"
+        >
           Remove
         </button>
       </div>
 
-      
       <Select
         register={register}
         errors={errors}

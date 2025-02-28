@@ -1,7 +1,12 @@
 "use client";
 import { platformData } from "@/app/commons/data";
 import Image from "next/image";
-import { FieldErrors, UseFormRegister, UseFormSetValue, UseFormTrigger } from "react-hook-form";
+import {
+  FieldErrors,
+  UseFormRegister,
+  UseFormSetValue,
+  UseFormTrigger,
+} from "react-hook-form";
 import { LinkItemType } from "../links/Links";
 import { Dispatch, FC, SetStateAction, useState } from "react";
 
@@ -13,8 +18,6 @@ export type SelectPropsType = {
   setValue?: UseFormSetValue<LinkItemType>;
   name?: string;
 
-
-
   trigger?: UseFormTrigger<LinkItemType>;
 };
 
@@ -25,10 +28,9 @@ const Select: FC<SelectPropsType> = ({
   dropDown,
   setValue,
   name,
-  trigger
+  trigger,
 }) => {
   const [selectedPlatform, setSelectedPlatform] = useState(name || "");
-  console.log(errors);
 
   const getIconName = (platform: string): string => {
     const iconMap: { [key: string]: string } = {

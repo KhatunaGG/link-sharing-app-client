@@ -11,7 +11,6 @@ export type InputPropsType = {
 };
 
 const Input: FC<InputPropsType> = ({ register, errors, link }) => {
-  console.log("errors from input:", errors);
   return (
     <div className="w-full">
       <label

@@ -86,7 +86,7 @@ const SideBar = () => {
                 >
                   <div className="w-full flex items-center  gap-2">
                     <Image
-                      src={`/assets/icons/select-icons/icon-${iconName}.svg`}
+                      src={`/assets/icons/icon-link-boxes/icon-${iconName}-link-box.svg`}
                       alt={""}
                       width={20}
                       height={20}

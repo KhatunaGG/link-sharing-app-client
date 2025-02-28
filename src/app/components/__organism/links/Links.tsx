@@ -9,7 +9,6 @@ import { axiosInstance } from "@/app/libs/axiosInstance";
 import useAccessToken from "@/app/hooks/use-token";
 import { MainContext } from "@/app/context/context";
 
-
 export const linkSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
   link: z
@@ -53,6 +52,10 @@ const Links = () => {
   }, [accessToken]);
 
   const onSubmit = async (formState: LinkItemType) => {
+    const isValid = await trigger();
+    if (!isValid) {
+      return;
+    }
     try {
       const res = await axiosInstance.post("/link", formState, {
         headers: { Authorization: `Bearer ${accessToken}` },
@@ -67,8 +70,14 @@ const Links = () => {
     }
   };
 
-  if (!accessToken) return null;
+  const handleAddLink = () => {
+    setShowLink(!showLink);
+    if (!showLink) {
+      reset();
+    }
+  };
 
+  if (!accessToken) return null;
   if (!context) return null;
 
   return (
@@ -91,7 +100,8 @@ const Links = () => {
 
             <div className="flex flex-col w-full gap-6">
               <button
-                onClick={() => setShowLink(!showLink)}
+                // onClick={() => setShowLink(!showLink)}
+                onClick={handleAddLink}
                 type="button"
                 className="w-full rounded-[8px] border border-[#633CFF] py-[11px] text-base text-[#633CFF] font-semibold leading-[24px] hover:bg-[#EFEBFF] transition duration-300 ease-in-out md:px-[27px] md:py-[11px] "
               >
@@ -108,7 +118,7 @@ const Links = () => {
                   dropDown={dropDown}
                   setValue={setValue}
                   trigger={trigger}
-                  
+                  reset={reset}
                 />
               ) : (length ?? 0) > 0 && !showLink ? null : (length ?? 0) > 0 &&
                 showLink ? (
@@ -119,6 +129,7 @@ const Links = () => {
                   dropDown={dropDown}
                   setValue={setValue}
                   trigger={trigger}
+                  reset={reset}
                 />
               ) : null}
 
@@ -130,7 +141,7 @@ const Links = () => {
                       key={link._id}
                       name={link.name}
                       link={link.link}
-                      // id={link._id}
+                      id={link._id}
                       // color={color}
                     />
                   ))}
