@@ -24,7 +24,7 @@ const MainContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [linkData, setLinkData] = useState<LinksDataType[]>([]);
   const [length, setLength] = useState(0);
   const { accessToken } = useAccessToken();
-  console.log(linkData, "linkData from context");
+
 
   const getAllLinks = async () => {
     if (!accessToken) return;

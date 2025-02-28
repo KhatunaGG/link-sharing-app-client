@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Logo } from "../../__molecules";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { LinkIcon, Profile } from "../../__atoms";
 
 const Header = () => {
   const path = usePathname();
@@ -18,19 +19,18 @@ const Header = () => {
 
           <Link
             href={"/dashboard"}
-            className={`flex items-center justify-center gap-2 px-[27px]  ${
-              isActive("/dashboard") ? "text-[#633CFF]" : "text-[#737373]"
-            }            py-[11px] rounded-lg hover:bg-[#633CFF]/10 transition duration-300 ease-in-out`}
+            className={`group flex items-center justify-center gap-2 px-[27px] ${
+              isActive("/dashboard") ? "bg-[#EFEBFF]" : "hover:bg-[#633CFF]/10"
+            } py-[11px] rounded-lg transition duration-300 ease-in-out`}
           >
             <div className="w-[20px] h-[20px] flex items-center justify-center relative">
-              <Image
-                src={"/assets/icons/icon-links-header.svg"}
-                alt={"logo"}
-                fill
-                sizes="(max-width: 768px) 20px, 20px"
-              />
+              <LinkIcon isActive={isActive("/dashboard")} />
             </div>
-            <p className="hidden text-base font-semibold leading-[24px] text-[#737373] md:flex hover:text-[#633CFF] transition duration-300 ease-in-out">
+            <p
+              className={`${
+                isActive("/dashboard") ? "text-[#633CFF]" : "text-[#737373]"
+              } group-hover:text-[#633CFF] hidden text-base font-semibold leading-[24px] md:flex transition duration-300 ease-in-out`}
+            >
               Links
             </p>
           </Link>
@@ -38,21 +38,19 @@ const Header = () => {
 
         <div className={` RIGHT flex items-center justify-between w-1/2`}>
           <Link
-            // href={"/userId"}
             href={"/profile"}
-            className={`flex items-center justify-center gap-2 px-[27px] ${
-              isActive("/userId") ? "text-[#633CFF]" : "text-[#737373]"
-            }         py-[11px] rounded-lg hover:bg-[#633CFF]/10  transition duration-300 ease-in-out `}
+            className={`group flex items-center justify-center gap-2 px-[27px] ${
+              isActive("/profile") ? "bg-[#EFEBFF]" : "hover:bg-[#633CFF]/10"
+            } py-[11px] rounded-lg transition duration-300 ease-in-out`}
           >
-            <div className=" w-[20px] h-[20px] flex items-center justify-center relative">
-              <Image
-                src={"/assets/icons/icon-profile-details-header.svg"}
-                alt={"logo"}
-                fill
-                sizes="(max-width: 768px) 20px, 20px"
-              />
+            <div className="w-[20px] h-[20px] flex items-center justify-center relative">
+              <Profile isActive={isActive("/profile")} />
             </div>
-            <p className="hidden text-base font-semibold leading-[24px] text-[#737373] md:flex hover:text-[#633CFF] transition duration-300 ease-in-out">
+            <p
+              className={`${
+                isActive("/profile") ? "text-[#633CFF]" : "text-[#737373]"
+              } group-hover:text-[#633CFF] hidden text-base font-semibold leading-[24px] md:flex transition duration-300 ease-in-out`}
+            >
               Profile Details
             </p>
           </Link>
