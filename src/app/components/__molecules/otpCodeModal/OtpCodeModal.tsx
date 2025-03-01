@@ -1,6 +1,7 @@
 "use client";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -27,6 +28,7 @@ const OtpCodeModal = ({
 }: OtpCodeModalPropsType) => {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [otpCodeState, setOtpCodeState] = useState<string>("");
+  const router = useRouter()
 
   const {
     register,
@@ -71,7 +73,12 @@ const OtpCodeModal = ({
       };
       const res = await axiosInstance.post("/auth/verify", newState);
       if (res.status >= 200 && res.status <= 204) {
-        // router.push("/signIn");
+
+        
+        router.push("/signIn");
+        
+        
+        
         setOtpCodeModal(false);
         reset();
       }
