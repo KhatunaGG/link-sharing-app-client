@@ -68,7 +68,7 @@ const SideBar = () => {
           {user?.userName}
         </div>
 
-        <div className="absolute top-[35%] w-max text-xs font-normal px-2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-20 flex  items-center justify-center rounded-[8px] bg-[#D9D9D9] ">
+        <div className="absolute top-[35%] w-max text-xs font-normal px-2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-20 flex  items-center justify-center rounded-[8px] bg-[#D9D9D9] pb-1">
           {user?.email}
         </div>
 
