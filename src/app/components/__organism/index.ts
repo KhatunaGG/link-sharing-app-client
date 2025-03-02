@@ -14,3 +14,4 @@ export { default as LinkItem } from "./linkItem/LinkItem";
 export { default as EmptyLinkPage } from "./emptyLinkPage/EmptyLinkPage";
 export { default as Select } from "./select/Select";
 export { default as ProfileForm } from "./profileForm/ProfileForm";
+export { default as upload } from "./upload/Upload";
