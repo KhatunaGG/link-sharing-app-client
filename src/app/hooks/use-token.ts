@@ -9,6 +9,9 @@ export type UserType = {
   userName: string;
   links: string[];
   _id: string;
+  firstName: string;
+  lastName: string;
+  filePath: string;
 };
 
 const useAccessToken = () => {
@@ -56,7 +59,7 @@ const useAccessToken = () => {
     }
   }, [accessToken]);
 
-  return { accessToken, isLoading, user, logout };
+  return { accessToken, isLoading, user, logout, getCurranUser };
 };
 
 export default useAccessToken;
