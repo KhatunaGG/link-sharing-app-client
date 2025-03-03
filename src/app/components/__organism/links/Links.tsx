@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import useAccessToken from "@/app/hooks/use-token";
 import { MainContext } from "@/app/context/context";
+import { toast } from "react-toastify";
 
 export const linkSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
@@ -64,6 +65,7 @@ const Links = () => {
         reset();
         setShowLink(false);
         getAllLinks?.();
+        toast.success("New link added successfully");
       }
     } catch (error) {
       console.log(error);
