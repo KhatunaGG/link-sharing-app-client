@@ -106,6 +106,22 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import useAccessToken from "@/app/hooks/use-token";
 import { axiosInstance } from "@/app/libs/axiosInstance";
+import { toast } from "react-toastify";
+
+// const UserUpdateSchema = z.object({
+//   firstName: z
+//     .string()
+//     .min(1, { message: "Name is required" })
+//     .max(50, { message: "Too long" }),
+//   lastName: z
+//     .string()
+//     .min(1, { message: "Last Name is required" })
+//     .max(70, { message: "Too long" }),
+//   // email: z.string(),
+//   filePath: z.string(),
+// });
+
+const MAX_FILE_SIZE = 1024 * 1024;
 
 const UserUpdateSchema = z.object({
   firstName: z
@@ -116,9 +132,12 @@ const UserUpdateSchema = z.object({
     .string()
     .min(1, { message: "Last Name is required" })
     .max(70, { message: "Too long" }),
-  // email: z.string(),
   filePath: z.string(),
+  file: z.instanceof(File).refine((file) => file.size <= MAX_FILE_SIZE, {
+    message: "File must be less than 1MB",
+  }),
 });
+
 export type UserUpdateType = z.infer<typeof UserUpdateSchema>;
 
 const ProfileSection = () => {
@@ -141,6 +160,8 @@ const ProfileSection = () => {
       lastName: user?.lastName || "",
       // email: user?.email || "",
       filePath: "",
+
+      file: undefined,
     },
   });
 
@@ -167,6 +188,11 @@ const ProfileSection = () => {
         getCurranUser(accessToken || "");
 
         getFilePath(res.data.filePath);
+        toast.success(
+          `User's ${
+            user?.userName ? user?.userName : user?.email
+          } profile updated successfully`
+        );
       }
     } catch (e) {
       console.log(e);
@@ -174,10 +200,7 @@ const ProfileSection = () => {
   };
 
   const getFilePath = async (fileId: string) => {
-    console.log(fileId, "fileId from function");
-    console.log(fileId, "fileId from function");
     if (!accessToken) return;
-
     try {
       const res = await axiosInstance.post(
         "auth/getImage",
@@ -186,7 +209,6 @@ const ProfileSection = () => {
           headers: { Authorization: `Bearer ${accessToken}` },
         }
       );
-
       if (res.status >= 200 && res.status <= 204) {
         const base64Image = res.data;
         setSrc(base64Image);
@@ -198,17 +220,29 @@ const ProfileSection = () => {
 
   useEffect(() => {
     getFilePath(user?.filePath || "");
-  }, [accessToken, user]);
+  }, [user]);
+
+
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
+ 
     const selectedFile = event.target.files?.[0];
     if (selectedFile) {
+      if (selectedFile.size > MAX_FILE_SIZE) {
+        toast.error("File size must be less than 1MB");
+        return;
+      }
+      const fileExtension = selectedFile.name.split(".").pop()?.toLowerCase();
+      if (!fileExtension || !["png", "jpg", "jpeg"].includes(fileExtension)) {
+        toast.error("Only PNG or JPG files are allowed");
+        return;
+      }
       setFile(selectedFile);
-
       const formData = new FormData();
       formData.append("file", selectedFile);
+      console.log(formData, "formData from handleFileChange")
       try {
         const res = await axiosInstance.post(`/auth/upload-image`, formData, {
           headers: { Authorization: `Bearer ${accessToken}` },
@@ -220,10 +254,70 @@ const ProfileSection = () => {
       } catch (e) {
         console.error("Error uploading file:", e);
       }
-    }
+    } 
   };
 
+  console.log(filePath, "filePath")
+
+
+
+
+
+
+
+
+
+  // const handleFileChange = async (
+  //   event: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   const selectedFile = event.target.files?.[0];
+  //   if (selectedFile) {
+  //     // Check file size
+  //     if (selectedFile.size > MAX_FILE_SIZE) {
+  //       toast.error("File size must be less than 1MB");
+  //       return;
+  //     }
+
+  //     // Check file type (PNG or JPG)
+  //     const fileExtension = selectedFile.name.split(".").pop()?.toLowerCase();
+  //     if (!fileExtension || !["png", "jpg", "jpeg"].includes(fileExtension)) {
+  //       toast.error("Only PNG or JPG files are allowed");
+  //       return;
+  //     }
+
+  //     const img = new Image();
+  //     img.onload = () => {
+  //       if (img.width > 1024 || img.height > 1024) {
+  //         toast.error("Image dimensions must be below 1024x1024px");
+  //       } else {
+  //         setFile(selectedFile);
+  //         const formData = new FormData();
+  //         formData.append("file", selectedFile);
+
+  //         axiosInstance
+  //           .post(`/auth/upload-image`, formData, {
+  //             headers: { Authorization: `Bearer ${accessToken}` },
+  //           })
+  //           .then((res) => {
+  //             if (res.status >= 200 && res.status <= 204) {
+  //               const uploadedFilePath = res.data;
+  //               setFilePath(uploadedFilePath);
+  //             }
+  //           })
+  //           .catch((e) => {
+  //             console.error("Error uploading file:", e);
+  //           });
+  //       }
+  //     };
+  //     img.src = URL.createObjectURL(selectedFile);
+  //   }
+  // };
+
   // const handleRemoveFile = () => [setFile(null)];
+ 
+ 
+ 
+ 
   const handleRemoveFile = () => setFile(null);
 
   if (!accessToken) return;

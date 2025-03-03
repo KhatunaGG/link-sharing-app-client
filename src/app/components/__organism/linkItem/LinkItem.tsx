@@ -2,12 +2,18 @@
 import Image from "next/image";
 import Select from "../select/Select";
 import { Input } from "../../__molecules";
-import { FieldErrors, UseFormRegister, UseFormReset, UseFormSetValue } from "react-hook-form";
+import {
+  FieldErrors,
+  UseFormRegister,
+  UseFormReset,
+  UseFormSetValue,
+} from "react-hook-form";
 import { Dispatch, FC, SetStateAction, useContext } from "react";
 import { LinkItemType } from "../links/Links";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import useAccessToken from "@/app/hooks/use-token";
 import { MainContext } from "@/app/context/context";
+import { toast } from "react-toastify";
 
 export type LinkItemPropsType = {
   register?: UseFormRegister<LinkItemType>;
@@ -20,7 +26,7 @@ export type LinkItemPropsType = {
   index?: number;
   trigger?: () => Promise<boolean>;
   id?: string;
-  reset?: UseFormReset<LinkItemType>
+  reset?: UseFormReset<LinkItemType>;
 };
 
 const LinkItem: FC<LinkItemPropsType> = ({
@@ -34,7 +40,7 @@ const LinkItem: FC<LinkItemPropsType> = ({
   link,
   index,
   id,
-  reset
+  reset,
 }) => {
   const { accessToken } = useAccessToken();
   const context = useContext(MainContext);
@@ -50,14 +56,13 @@ const LinkItem: FC<LinkItemPropsType> = ({
       if (res.status >= 200 && res.status <= 204) {
         console.log(res.data, "res.data");
         getAllLinks?.();
-        reset?.()
+        reset?.();
+        toast.success("Link removed successfully");
       }
     } catch (error) {
       console.log(error);
     }
   };
-
-
 
   return (
     <section className="w-full bg-[#FAFAFA] p-[20px] rounded-[12px] flex flex-col gap-3">
@@ -71,7 +76,6 @@ const LinkItem: FC<LinkItemPropsType> = ({
               sizes="(max-width: 768px) 100px, 135px"
             />
           </div>
-
           <p className="text-base font-bold leading-[24px] text-[#737373]">
             Link #{index}
           </p>
