@@ -121,13 +121,16 @@ import Link from "next/link";
 
 export const passwordSchema = z
   .string()
-  .min(4, "At least 4 characters")
-  .max(11, "No more than 11 characters");
+  .min(4, "Password must be at least 4 characters")
+  .max(11, "Password must be no more than 11 characters");
 
 export const confirmPasswordSchema = z
   .object({
     password: passwordSchema,
-    confirmPassword: z.string(),
+    confirmPassword: z
+      .string()
+      .min(4, "Confirm password must be at least 4 characters")
+      .nonempty("Confirm password is required"),
   })
   .superRefine((data, ctx) => {
     if (data.password !== data.confirmPassword) {
@@ -139,9 +142,15 @@ export const confirmPasswordSchema = z
     }
   });
 
+// export const signUpSchema = z
+//   .object({
+//     email: z.string().email(),
+//   })
+//   .and(confirmPasswordSchema);
+
 export const signUpSchema = z
   .object({
-    email: z.string().email(),
+    email: z.string().min(1, "Email is required").email("Invalid email format"),
   })
   .and(confirmPasswordSchema);
 
@@ -153,12 +162,12 @@ export type FormPropsType = {
   setEmail: Dispatch<SetStateAction<string>>;
 };
 
-const Form = ({ setOtpCodeModal, otpCodeModal, setEmail }: FormPropsType) => {
+const Form = ({ setOtpCodeModal, setEmail }: FormPropsType) => {
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, touchedFields },
   } = useForm<SignUpFormData>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -167,10 +176,8 @@ const Form = ({ setOtpCodeModal, otpCodeModal, setEmail }: FormPropsType) => {
       confirmPassword: "",
     },
   });
-  console.log(errors);
 
   const onSubmit = async (formState: SignUpFormData) => {
-    console.log(formState, "formState");
     setEmail(formState.email);
     try {
       const newFormState = {
@@ -181,7 +188,8 @@ const Form = ({ setOtpCodeModal, otpCodeModal, setEmail }: FormPropsType) => {
 
       if (res.status >= 200 && res.status <= 204) {
         reset();
-        setOtpCodeModal(!otpCodeModal);
+        // setOtpCodeModal(!otpCodeModal);
+        setOtpCodeModal(true);
       }
     } catch (error) {
       console.log(error);
@@ -193,8 +201,16 @@ const Form = ({ setOtpCodeModal, otpCodeModal, setEmail }: FormPropsType) => {
       onClick={handleSubmit(onSubmit)}
       className="w-full flex flex-col gap-6"
     >
-      <EmailInput register={register} errors={errors} />
-      <PasswordInput register={register} errors={errors} />
+      <EmailInput
+        register={register}
+        errors={errors}
+        touchedFields={touchedFields}
+      />
+      <PasswordInput
+        register={register}
+        errors={errors}
+        touchedFields={touchedFields}
+      />
 
       <p className="text-[#737373] font-normal  text-xs leading-[18px]">
         Password must contains at least 4 characters

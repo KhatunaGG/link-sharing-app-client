@@ -200,8 +200,7 @@ const Upload = ({
             src={src}
             alt={"logo"}
             fill
-            // sizes="(max-width: 768px) 100px, 100px"
-            className="object-cover"
+            className="object-cover w-full h-full"
           />
           <div className="rounded-[12px] group hover:bg-black/40 h-[193px] w-[193px] flex items-center justify-center overflow-hidden z-30 relative">
             <input
@@ -230,7 +229,7 @@ const Upload = ({
           {file && (
             <button
               type="button"
-              className="absolute top-3 right-3 cursor-pointer font-bold text-[#633CFF]"
+              className="absolute top-3 right-3 cursor-pointer font-bold text-[#633CFF] z-20"
               onClick={handleRemoveFile}
             >
               <SquareX />

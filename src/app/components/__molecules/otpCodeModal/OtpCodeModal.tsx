@@ -78,7 +78,7 @@ const OtpCodeModal = ({
         router.push("/signIn");
         
         
-        
+        // setOtpCodeModal(!otpCodeModal);
         setOtpCodeModal(false);
         reset();
       }
