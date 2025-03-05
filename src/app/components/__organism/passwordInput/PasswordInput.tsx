@@ -88,12 +88,6 @@
 
 // export default PasswordInput;
 
-
-
-
-
-
-
 "use client";
 import { FC } from "react";
 import { UseFormRegister, FieldErrors } from "react-hook-form";
@@ -110,9 +104,14 @@ interface PasswordInputProps {
     password: string;
     confirmPassword: string;
   }>;
+  touchedFields: Record<string, boolean>;
 }
 
-const PasswordInput: FC<PasswordInputProps> = ({ register, errors }) => {
+const PasswordInput: FC<PasswordInputProps> = ({
+  register,
+  errors,
+  touchedFields,
+}) => {
   return (
     <>
       <div className="w-full flex flex-col gap-1">
@@ -139,7 +138,13 @@ const PasswordInput: FC<PasswordInputProps> = ({ register, errors }) => {
               fill
             />
           </div>
-          {errors.email && (
+          {/* {errors.password && (
+            <span className="text-red-500 text-xs absolute -bottom-4 left-0">
+              {errors.password.message}
+            </span>
+          )} */}
+
+          {touchedFields.password && errors.password && (
             <span className="text-red-500 text-xs absolute -bottom-4 left-0">
               {errors.password?.message}
             </span>
@@ -171,7 +176,12 @@ const PasswordInput: FC<PasswordInputProps> = ({ register, errors }) => {
               fill
             />
           </div>
-          {errors.confirmPassword?.message && (
+          {/* {errors.confirmPassword && (
+            <span className="text-red-500 text-xs absolute -bottom-4 left-0">
+              {errors.confirmPassword.message}
+            </span>
+          )} */}
+          {touchedFields.confirmPassword && errors.confirmPassword && (
             <span className="text-red-500 text-xs absolute -bottom-4 left-0">
               {errors.confirmPassword?.message}
             </span>

@@ -1,14 +1,18 @@
 "use client";
-import Link from "next/link";
-import React, { useState } from "react";
-import SignInInput from "../signInInput/SignInInput";
-import SignInPassword from "../signInPassword/SignInPassword";
+import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import { useRouter } from "next/navigation";
 import { setCookie } from "cookies-next";
+import axios  from "axios";
+import { toast } from "react-toastify";
+import SignInInput from "../signInInput/SignInInput";
+import SignInPassword from "../signInPassword/SignInPassword";
+import Link from "next/link";
+
+
 
 export const signInSchema = z.object({
   email: z.string().email(),
@@ -37,7 +41,6 @@ const SignInForm = () => {
   });
 
   const onSubmit = async (formState: SignInFormData) => {
-    console.log(formState, "formState");
     try {
       const res = await axiosInstance.post("/auth/sign-in", formState, {
         headers: {
@@ -54,15 +57,60 @@ const SignInForm = () => {
         }
         reset();
       }
+
     } catch (e) {
-      console.log(e);
+      if (axios.isAxiosError(e)) {
+        if (e.response) {
+          const message = e.response.data?.message || "An error occurred";
+          toast.error(message, {
+            position: "top-left",
+            autoClose: 2000,
+          });
+        } else {
+          toast.error("Network error. Please try again later.", {
+            position: "top-left",
+            autoClose: 2000,
+          });
+        }
+      } else {
+        toast.error("Unexpected error occurred.", {
+          position: "top-left",
+          autoClose: 2000,
+        });
+      }
+    
+
+
+
+
+      
     }
+
   };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   // if (!accessToken) return null;
 
   return (
     <form
-      // onClick={handleSubmit(onSubmit)}
       onSubmit={handleSubmit(onSubmit)}
       className="w-full flex flex-col gap-6 h-full"
     >
