@@ -7,8 +7,9 @@ import { ArrowRightDark } from "../../__atoms";
 
 const SideBar = () => {
   const context = useContext(MainContext);
-  const { linkData } = context || {};
+  const { linkData, src } = context || {};
   const { user } = useAccessToken();
+  console.log(user, "user");
 
   const getIconName = (platform: string): string => {
     const iconMap: { [key: string]: string } = {
@@ -62,13 +63,22 @@ const SideBar = () => {
           fill
           sizes="(max-width: 768px) 100px, 135px"
         />
-        <div className="w-[96px] h-[96px] rounded-full"></div>
-
-        <div className="absolute top-[31%] text-sm font-semibold px-2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-20 w-[59%] flex  items-center justify-center rounded-[8px] bg-[#D9D9D9] bg-transparent">
-          {user?.userName}
+        <div className="w-[96px] h-[96px] rounded-full absolute top-[115px] bg-transparent left-1/2 -translate-y-1/2 -translate-x-1/2 z-20 overflow-hidden">
+          {src && (
+            <Image
+              src={src}
+              alt={"logo"}
+              fill
+              className="object-cover w-full h-full "
+            />
+          )}
         </div>
 
-        <div className="absolute top-[35%] w-max text-xs font-normal px-2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-20 flex  items-center justify-center rounded-[8px] bg-[#D9D9D9] pb-1">
+        <div className="absolute top-[31%] w-max text-sm font-semibold px-2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-20  flex  items-center justify-center rounded-[8px] bg-[#D9D9D9] bg-transparent pt-1">
+          {user?.firstName} {user?.lastName}
+        </div>
+
+        <div className="absolute top-[35%] w-max text-xs font-normal px-2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-20 flex  items-center justify-center rounded-[8px] bg-[#D9D9D9] bg-transparent pb-1">
           {user?.email}
         </div>
 

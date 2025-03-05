@@ -449,7 +449,7 @@
 //******************************************************************************************************************************************
 
 "use client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ProfileForm from "../profileForm/ProfileForm";
 import Upload from "../upload/Upload";
 import { z } from "zod";
@@ -459,6 +459,8 @@ import useAccessToken from "@/app/hooks/use-token";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { MainContext } from "@/app/context/context";
+
 
 // const UserUpdateSchema = z.object({
 //   firstName: z
@@ -493,7 +495,9 @@ const ProfileSection = () => {
   const [file, setFile] = useState<File | null>(null);
   // const [filePath, setFilePath] = useState("");
   const { user, accessToken, getCurranUser } = useAccessToken();
-  const [src, setSrc] = useState("");
+  // const [src, setSrc] = useState("");
+  const context = useContext(MainContext);
+  const { getFilePath, src } = context || {};
 
   const {
     register,
@@ -554,7 +558,7 @@ const ProfileSection = () => {
       });
       if (res.status >= 200 && res.status <= 204) {
         getCurranUser(accessToken || "");
-        getFilePath(res.data.filePath);
+        getFilePath?.(res.data.filePath);
         toast.success(`User's ${user?.email} profile updated successfully`);
       }
     } catch (e) {
@@ -581,30 +585,30 @@ const ProfileSection = () => {
     }
   };
 
-  const getFilePath = async (fileId: string) => {
-    if (!accessToken) return;
-    try {
-      const res = await axiosInstance.post(
-        "auth/getImage",
-        { fileId },
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        }
-      );
-      if (res.status >= 200 && res.status <= 204) {
-        const base64Image = res.data;
-        setSrc(base64Image);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const getFilePath = async (fileId: string) => {
+  //   if (!accessToken) return;
+  //   try {
+  //     const res = await axiosInstance.post(
+  //       "auth/getImage",
+  //       { fileId },
+  //       {
+  //         headers: { Authorization: `Bearer ${accessToken}` },
+  //       }
+  //     );
+  //     if (res.status >= 200 && res.status <= 204) {
+  //       const base64Image = res.data;
+  //       setSrc(base64Image);
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
-  useEffect(() => {
-    if (user) {
-      getFilePath(user?.filePath || "");
-    }
-  }, [user?.filePath]);
+  // useEffect(() => {
+  //   if (user) {
+  //     getFilePath(user?.filePath || "");
+  //   }
+  // }, [user?.filePath]);
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>

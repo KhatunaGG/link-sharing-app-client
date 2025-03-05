@@ -16,6 +16,8 @@ export type MainContextType = {
   getAllLinks: () => Promise<void>;
   linkData: LinksDataType[];
   length: number;
+  getFilePath: (v: string) => void;
+  src: string | undefined
 };
 
 export const MainContext = createContext<MainContextType | null>(null);
@@ -23,7 +25,7 @@ export const MainContext = createContext<MainContextType | null>(null);
 const MainContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [linkData, setLinkData] = useState<LinksDataType[]>([]);
   const [length, setLength] = useState(0);
-  const { accessToken } = useAccessToken();
+  const { accessToken, user } = useAccessToken();
 
 
   const getAllLinks = async () => {
@@ -47,8 +49,59 @@ const MainContextProvider = ({ children }: { children: React.ReactNode }) => {
     getAllLinks();
   }, [accessToken]);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+  const [src, setSrc] = useState("");
+
+
+  const getFilePath = async (fileId: string) => {
+    if (!accessToken) return;
+    try {
+      const res = await axiosInstance.post(
+        "auth/getImage",
+        { fileId },
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+      if (res.status >= 200 && res.status <= 204) {
+        const base64Image = res.data;
+        setSrc(base64Image);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      getFilePath(user?.filePath || "");
+    }
+  }, [user?.filePath]);
+
+
+
+
+
+
+
+
+
+
+
   return (
-    <MainContext.Provider value={{ getAllLinks, linkData, length }}>
+    <MainContext.Provider value={{ getAllLinks, linkData, length, getFilePath, src }}>
       {children}
     </MainContext.Provider>
   );
