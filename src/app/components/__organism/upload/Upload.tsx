@@ -180,7 +180,7 @@ export type UploadPropsType = {
   setFile: Dispatch<SetStateAction<File | null>>;
   handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleRemoveFile: () => void;
-  src: string;
+  src: string | undefined;
 };
 
 const Upload = ({
