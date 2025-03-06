@@ -169,27 +169,45 @@
 //*********************************************************************************************** */
 
 "use client";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 import { ImageIcon } from "../../__atoms";
 import useAccessToken from "@/app/hooks/use-token";
-import { SquareX } from "lucide-react";
 import Image from "next/image";
+import { axiosInstance } from "@/app/libs/axiosInstance";
+import { MainContext } from "@/app/context/context";
 
 export type UploadPropsType = {
   file: File | null;
   setFile: Dispatch<SetStateAction<File | null>>;
   handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleRemoveFile: () => void;
   src: string | undefined;
 };
 
-const Upload = ({
-  handleRemoveFile,
-  handleFileChange,
-  file,
-  src,
-}: UploadPropsType) => {
-  const { accessToken } = useAccessToken();
+const Upload = ({ handleFileChange, file, src }: UploadPropsType) => {
+  const { accessToken, user } = useAccessToken();
+  const context = useContext(MainContext);
+  const { setSrc } = context || {};
+
+  const removeImage = async (id: string) => {
+    const fileId = id.split("/")[1];
+    console.log(fileId, "imageToBeDeleted");
+    try {
+      const res = await axiosInstance.post(
+        "/auth/delete",
+        { fileId },
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
+      );
+      if (res.status >= 200 || res.status <= 204) {
+        // getFilePath?.("")
+        setSrc?.("");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   if (!accessToken) return null;
 
   return (
@@ -216,25 +234,20 @@ const Upload = ({
               className="w-full h-full flex flex-col items-center justify-center gap-2 cursor-pointer absolute top-0 left-0 z-20"
             >
               <div className="flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 group-hover:text-white transition-opacity duration-300 ease-in-out">
-                <ImageIcon />
-                <p className="text-base font-semibold leading-[24px]  transition duration-300 ease-in-out text-center">
+                <ImageIcon src={src} />
+                <button
+                  onClick={() => removeImage(user?.filePath || "")}
+                  type="button"
+                  className="text-base font-semibold leading-[24px]  transition duration-300 ease-in-out text-center"
+                >
                   Change Image
-                </p>
+                </button>
               </div>
             </label>
           </div>
         </>
       ) : (
         <>
-          {file && (
-            <button
-              type="button"
-              className="absolute top-3 right-3 cursor-pointer font-bold text-[#633CFF] z-20"
-              onClick={handleRemoveFile}
-            >
-              <SquareX />
-            </button>
-          )}
           <input
             type="file"
             name="file"
@@ -249,7 +262,8 @@ const Upload = ({
           >
             <ImageIcon />
             <p className="text-base font-semibold leading-[24px] text-[#633CFF] hover:text-[#737373] transition duration-300 ease-in-out w-full text-center">
-              {file ? file.name : " + Upload Image"}
+              {/* {file ? file.name : " + Upload Image"} */}
+              Upload Image
             </p>
           </label>
         </>

@@ -9,7 +9,6 @@ const SideBar = () => {
   const context = useContext(MainContext);
   const { linkData, src } = context || {};
   const { user } = useAccessToken();
-  console.log(user, "user");
 
   const getIconName = (platform: string): string => {
     const iconMap: { [key: string]: string } = {

@@ -461,7 +461,6 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { MainContext } from "@/app/context/context";
 
-
 // const UserUpdateSchema = z.object({
 //   firstName: z
 //     .string()
@@ -499,6 +498,13 @@ const ProfileSection = () => {
   const context = useContext(MainContext);
   const { getFilePath, src } = context || {};
 
+  console.log(file, "file");
+
+  const capitalize = (str: string) => {
+    if (!str) return "";
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  };
+
   const {
     register,
     handleSubmit,
@@ -519,8 +525,8 @@ const ProfileSection = () => {
   useEffect(() => {
     if (user) {
       reset({
-        firstName: user?.firstName || "",
-        lastName: user?.lastName || "",
+        firstName: capitalize(user?.firstName) || "",
+        lastName: capitalize(user?.lastName) || "",
         filePath: user?.filePath || "",
       });
     }
@@ -560,6 +566,7 @@ const ProfileSection = () => {
         getCurranUser(accessToken || "");
         getFilePath?.(res.data.filePath);
         toast.success(`User's ${user?.email} profile updated successfully`);
+        reset();
       }
     } catch (e) {
       if (axios.isAxiosError(e)) {
@@ -628,10 +635,6 @@ const ProfileSection = () => {
     }
   };
 
-  const handleRemoveFile = () => {
-    setFile(null);
-    // setFilePath("");
-  };
 
   if (!accessToken) return;
 
@@ -658,7 +661,7 @@ const ProfileSection = () => {
                 file={file}
                 setFile={setFile}
                 handleFileChange={handleFileChange}
-                handleRemoveFile={handleRemoveFile}
+                // handleRemoveFile={handleRemoveFile}
                 src={src}
               />
               <p className="text-xs leading-[18px] lg:text-base font-normal lg:leading-[24px] text-[#737373] md:w-[36.91%] lg:w-[49.77%] flex items-center justify-start">

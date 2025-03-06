@@ -1,5 +1,11 @@
 "use client";
-import { createContext, useEffect, useState } from "react";
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { axiosInstance } from "../libs/axiosInstance";
 
 import useAccessToken from "../hooks/use-token";
@@ -17,7 +23,8 @@ export type MainContextType = {
   linkData: LinksDataType[];
   length: number;
   getFilePath: (v: string) => void;
-  src: string | undefined
+  src: string | undefined;
+  setSrc: Dispatch<SetStateAction<string>>;
 };
 
 export const MainContext = createContext<MainContextType | null>(null);
@@ -26,7 +33,7 @@ const MainContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [linkData, setLinkData] = useState<LinksDataType[]>([]);
   const [length, setLength] = useState(0);
   const { accessToken, user } = useAccessToken();
-
+  const [src, setSrc] = useState("");
 
   const getAllLinks = async () => {
     if (!accessToken) return;
@@ -49,59 +56,63 @@ const MainContextProvider = ({ children }: { children: React.ReactNode }) => {
     getAllLinks();
   }, [accessToken]);
 
+  // const getFilePath = async (fileId: string) => {
+  //   if (!accessToken) return;
+  //   try {
+  //     const res = await axiosInstance.post(
+  //       "auth/getImage",
+  //       { fileId },
+  //       {
+  //         headers: { Authorization: `Bearer ${accessToken}` },
+  //       }
+  //     );
+  //     if (res.status >= 200 && res.status <= 204) {
+  //       const base64Image = res.data;
+  //       setSrc(base64Image);
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
 
-
-
-
-
-
-
-
-
-
-
-
-
-  const [src, setSrc] = useState("");
-
+  //     setSrc("");
+  //   }
+  // };
 
   const getFilePath = async (fileId: string) => {
     if (!accessToken) return;
+    if (!fileId) return;
+
     try {
-      const res = await axiosInstance.post(
-        "auth/getImage",
-        { fileId },
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
+      if (fileId) {
+        const res = await axiosInstance.post(
+          "auth/getImage",
+          { fileId },
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
+        );
+        if (res.status >= 200 && res.status <= 204) {
+          const base64Image = res.data;
+          setSrc(base64Image);
         }
-      );
-      if (res.status >= 200 && res.status <= 204) {
-        const base64Image = res.data;
-        setSrc(base64Image);
+      } else {
+        setSrc("");
       }
     } catch (e) {
-      console.log(e);
+      console.log("Error while fetching image:", e);
+      setSrc("");
     }
   };
 
   useEffect(() => {
-    if (user) {
+    if (user?.filePath) {
       getFilePath(user?.filePath || "");
     }
   }, [user?.filePath]);
 
-
-
-
-
-
-
-
-
-
-
   return (
-    <MainContext.Provider value={{ getAllLinks, linkData, length, getFilePath, src }}>
+    <MainContext.Provider
+      value={{ getAllLinks, linkData, length, getFilePath, src, setSrc }}
+    >
       {children}
     </MainContext.Provider>
   );

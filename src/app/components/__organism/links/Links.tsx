@@ -102,7 +102,6 @@ const Links = () => {
 
             <div className="flex flex-col w-full gap-6">
               <button
-                // onClick={() => setShowLink(!showLink)}
                 onClick={handleAddLink}
                 type="button"
                 className="w-full rounded-[8px] border border-[#633CFF] py-[11px] text-base text-[#633CFF] font-semibold leading-[24px] hover:bg-[#EFEBFF] transition duration-300 ease-in-out md:px-[27px] md:py-[11px] "
@@ -121,6 +120,7 @@ const Links = () => {
                   setValue={setValue}
                   trigger={trigger}
                   reset={reset}
+                  isCreating={true}
                 />
               ) : (length ?? 0) > 0 && !showLink ? null : (length ?? 0) > 0 &&
                 showLink ? (
@@ -132,6 +132,7 @@ const Links = () => {
                   setValue={setValue}
                   trigger={trigger}
                   reset={reset}
+                  isCreating={true}
                 />
               ) : null}
 
@@ -145,6 +146,7 @@ const Links = () => {
                       link={link.link}
                       id={link._id}
                       // color={color}
+                      isCreating={false}
                     />
                   ))}
               </div>
