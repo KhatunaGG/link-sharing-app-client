@@ -19,6 +19,10 @@ export type SelectPropsType = {
   name?: string;
 
   trigger?: UseFormTrigger<LinkItemType>;
+
+
+
+  isCreating: boolean
 };
 
 const Select: FC<SelectPropsType> = ({
@@ -29,8 +33,13 @@ const Select: FC<SelectPropsType> = ({
   setValue,
   name,
   trigger,
+
+
+
+  isCreating
 }) => {
   const [selectedPlatform, setSelectedPlatform] = useState(name || "");
+  const [isFocused, setIsFocused] = useState(false);
 
   const getIconName = (platform: string): string => {
     const iconMap: { [key: string]: string } = {
@@ -63,9 +72,20 @@ const Select: FC<SelectPropsType> = ({
           type="text"
           onChange={(e) => setSelectedPlatform(e.target.value)}
           value={selectedPlatform}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          // className={`${
+          //   errors?.name ? "border border-[#FF3939]" : ""
+          // } w-full text-[#333333] text-base font-normal leading-[18px] py-3 pl-4 rounded-[8px] outline-none`}
+
           className={`${
             errors?.name ? "border border-[#FF3939]" : ""
-          } w-full text-[#333333] text-base font-normal leading-[18px] py-3 pl-4 rounded-[8px] outline-none`}
+          } w-full text-base font-normal leading-[18px] py-3 pl-4 rounded-[8px] outline-none ${
+            (isFocused && isCreating || selectedPlatform && isCreating) ? "border-[#633CFF] shadow-[0px_0px_10px_#BEADFF]" : ""
+          } ${
+            selectedPlatform ? "text-[#633CFF]" : "text-[#333333]"
+          }`} 
+
           placeholder="Select Platform..."
         />
         <button
@@ -107,7 +127,8 @@ const Select: FC<SelectPropsType> = ({
                   width={16}
                   height={16}
                 />
-                <div className="w-full text-[#333333] text-base font-normal leading-[18px]">
+                <div 
+                className="w-full text-[#333333] text-base font-normal leading-[18px]">
                   {platform}
                 </div>
               </div>
@@ -125,3 +146,5 @@ const Select: FC<SelectPropsType> = ({
 };
 
 export default Select;
+
+
