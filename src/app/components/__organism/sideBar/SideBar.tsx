@@ -4,54 +4,57 @@ import useAccessToken from "@/app/hooks/use-token";
 import Image from "next/image";
 import { useContext } from "react";
 import { ArrowRightDark } from "../../__atoms";
+import useLinkUtils from "@/app/hooks/use-linkUtils";
 
 const SideBar = () => {
   const context = useContext(MainContext);
   const { linkData, src } = context || {};
   const { user } = useAccessToken();
+  const { getIconName, getPlatformColor } = useLinkUtils();
+  
 
-  const getIconName = (platform: string): string => {
-    const iconMap: { [key: string]: string } = {
-      "Dev.to": "devto",
-      "Frontend Mentor": "frontendmentor",
-      "Stack Overflow": "stackoverflow",
-    };
-    return iconMap[platform] || platform.toLowerCase();
-  };
+  // const getIconName = (platform: string): string => {
+  //   const iconMap: { [key: string]: string } = {
+  //     "Dev.to": "devto",
+  //     "Frontend Mentor": "frontendmentor",
+  //     "Stack Overflow": "stackoverflow",
+  //   };
+  //   return iconMap[platform] || platform.toLowerCase();
+  // };
 
-  const getPlatformColor = (name: string): string => {
-    if (name === null) return "#fff";
-    switch (name) {
-      case "Github":
-        return "#1A1A1A";
-      case "Frontend Mentor":
-        return "#FFFFFF";
-      case "Twitter":
-        return "#43B7E9";
-      case "LinkedIn":
-        return "#2D68FF";
-      case "YouTube":
-        return "#EE3939";
-      case "Facebook":
-        return "#2442AC";
-      case "Twitch":
-        return "#EE3FC8";
-      case "Dev.to":
-        return "#333333";
-      case "Codewars":
-        return "#8A1A50";
-      case "freeCodeCamp":
-        return "#302267";
-      case "GitLab":
-        return "#EB4925";
-      case "Hashnode":
-        return "#0330D1";
-      case "Stack Overflow":
-        return "#EC7100";
-      default:
-        return "transparent";
-    }
-  };
+  // const getPlatformColor = (name: string): string => {
+  //   if (name === null) return "#fff";
+  //   switch (name) {
+  //     case "Github":
+  //       return "#1A1A1A";
+  //     case "Frontend Mentor":
+  //       return "#FFFFFF";
+  //     case "Twitter":
+  //       return "#43B7E9";
+  //     case "LinkedIn":
+  //       return "#2D68FF";
+  //     case "YouTube":
+  //       return "#EE3939";
+  //     case "Facebook":
+  //       return "#2442AC";
+  //     case "Twitch":
+  //       return "#EE3FC8";
+  //     case "Dev.to":
+  //       return "#333333";
+  //     case "Codewars":
+  //       return "#8A1A50";
+  //     case "freeCodeCamp":
+  //       return "#302267";
+  //     case "GitLab":
+  //       return "#EB4925";
+  //     case "Hashnode":
+  //       return "#0330D1";
+  //     case "Stack Overflow":
+  //       return "#EC7100";
+  //     default:
+  //       return "transparent";
+  //   }
+  // };
 
   return (
     <div className="w-full flex items-center justify-center ">
@@ -62,7 +65,7 @@ const SideBar = () => {
           fill
           sizes="(max-width: 768px) 100px, 135px"
         />
-        <div className="w-[96px] h-[96px] rounded-full absolute top-[115px] bg-transparent left-1/2 -translate-y-1/2 -translate-x-1/2 z-20 overflow-hidden">
+        <div className="w-[96px] h-[96px] rounded-full border-4 border-[#633CFF] absolute top-[115px] bg-transparent left-1/2 -translate-y-1/2 -translate-x-1/2 z-20 overflow-hidden">
           {src && (
             <Image
               src={src}
@@ -91,7 +94,7 @@ const SideBar = () => {
                 <div
                   key={link._id}
                   style={{ background: color }}
-                  className={`w-full rounded-[8px] border text-xs font-normal leading-[18px] py-[11px] px-10 flex items-center justify-between cursor-pointer`}
+                  className={`w-full rounded-[8px] border text-xs font-normal leading-[18px] py-[11px] px-[16px] flex items-center justify-between cursor-pointer`}
                 >
                   <div className="w-full flex items-center  gap-2">
                     <Image

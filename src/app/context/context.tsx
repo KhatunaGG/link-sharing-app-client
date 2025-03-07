@@ -80,6 +80,7 @@ const MainContextProvider = ({ children }: { children: React.ReactNode }) => {
   const getFilePath = async (fileId: string) => {
     if (!accessToken) return;
     if (!fileId) return;
+    console.log(fileId, "fileId");
 
     try {
       if (fileId) {
