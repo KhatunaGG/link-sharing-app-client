@@ -15,3 +15,4 @@ export { default as EmptyLinkPage } from "./emptyLinkPage/EmptyLinkPage";
 export { default as Select } from "./select/Select";
 export { default as ProfileForm } from "./profileForm/ProfileForm";
 export { default as upload } from "./upload/Upload";
+export { default as PreviewSection } from "./previewSection/PreviewSection";

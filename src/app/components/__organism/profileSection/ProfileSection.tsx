@@ -492,13 +492,11 @@ export type UserUpdateType = z.infer<typeof UserUpdateSchema>;
 
 const ProfileSection = () => {
   const [file, setFile] = useState<File | null>(null);
-  // const [filePath, setFilePath] = useState("");
   const { user, accessToken, getCurranUser } = useAccessToken();
-  // const [src, setSrc] = useState("");
   const context = useContext(MainContext);
   const { getFilePath, src } = context || {};
 
-  console.log(file, "file");
+
 
   const capitalize = (str: string) => {
     if (!str) return "";
@@ -533,7 +531,6 @@ const ProfileSection = () => {
   }, [user, reset]);
 
   const onSubmit = async (formState: UserUpdateType) => {
-    console.log("Form submitted", formState);
     let awsFilePath = formState.filePath;
     let res;
     try {
