@@ -65,7 +65,7 @@ const LinkItem: FC<LinkItemPropsType> = ({
         console.log(res.data, "res.data");
         getAllLinks?.();
         reset?.();
-        toast.success("Link removed successfully");
+        toast.success("Link removed successfully", {position: "top-left"});
       }
     } catch (error) {
       console.log(error);

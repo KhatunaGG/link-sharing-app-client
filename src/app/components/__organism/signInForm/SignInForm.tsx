@@ -6,13 +6,11 @@ import { useForm } from "react-hook-form";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import { useRouter } from "next/navigation";
 import { setCookie } from "cookies-next";
-import axios  from "axios";
+import axios from "axios";
 import { toast } from "react-toastify";
 import SignInInput from "../signInInput/SignInInput";
 import SignInPassword from "../signInPassword/SignInPassword";
 import Link from "next/link";
-
-
 
 export const signInSchema = z.object({
   email: z.string().email(),
@@ -57,55 +55,25 @@ const SignInForm = () => {
         }
         reset();
       }
-
     } catch (e) {
       if (axios.isAxiosError(e)) {
         if (e.response) {
           const message = e.response.data?.message || "An error occurred";
           toast.error(message, {
             position: "top-left",
-            autoClose: 2000,
           });
         } else {
           toast.error("Network error. Please try again later.", {
             position: "top-left",
-            autoClose: 2000,
           });
         }
       } else {
         toast.error("Unexpected error occurred.", {
           position: "top-left",
-          autoClose: 2000,
         });
       }
-    
-
-
-
-
-      
     }
-
   };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   // if (!accessToken) return null;
 

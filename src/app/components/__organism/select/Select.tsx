@@ -9,6 +9,7 @@ import {
 } from "react-hook-form";
 import { LinkItemType } from "../links/Links";
 import { Dispatch, FC, SetStateAction, useState } from "react";
+import useLinkUtils from "@/app/hooks/use-linkUtils";
 
 export type SelectPropsType = {
   register?: UseFormRegister<LinkItemType>;
@@ -17,12 +18,8 @@ export type SelectPropsType = {
   dropDown?: boolean;
   setValue?: UseFormSetValue<LinkItemType>;
   name?: string;
-
   trigger?: UseFormTrigger<LinkItemType>;
-
-
-
-  isCreating: boolean
+  isCreating: boolean;
 };
 
 const Select: FC<SelectPropsType> = ({
@@ -34,21 +31,11 @@ const Select: FC<SelectPropsType> = ({
   name,
   trigger,
 
-
-
-  isCreating
+  isCreating,
 }) => {
   const [selectedPlatform, setSelectedPlatform] = useState(name || "");
   const [isFocused, setIsFocused] = useState(false);
-
-  const getIconName = (platform: string): string => {
-    const iconMap: { [key: string]: string } = {
-      "Dev.to": "devto",
-      "Frontend Mentor": "frontendmentor",
-      "Stack Overflow": "stackoverflow",
-    };
-    return iconMap[platform] || platform.toLowerCase();
-  };
+  const { getIconName } = useLinkUtils();
 
   const handleSelectPlatform = (platform: string) => {
     setSelectedPlatform(platform);
@@ -74,18 +61,13 @@ const Select: FC<SelectPropsType> = ({
           value={selectedPlatform}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
-          // className={`${
-          //   errors?.name ? "border border-[#FF3939]" : ""
-          // } w-full text-[#333333] text-base font-normal leading-[18px] py-3 pl-4 rounded-[8px] outline-none`}
-
           className={`${
             errors?.name ? "border border-[#FF3939]" : ""
           } w-full text-base font-normal leading-[18px] py-3 pl-4 rounded-[8px] outline-none ${
-            (isFocused && isCreating || selectedPlatform && isCreating) ? "border-[#633CFF] shadow-[0px_0px_10px_#BEADFF]" : ""
-          } ${
-            selectedPlatform ? "text-[#633CFF]" : "text-[#333333]"
-          }`} 
-
+            (isFocused && isCreating) || (selectedPlatform && isCreating)
+              ? "border-[#633CFF] shadow-[0px_0px_10px_#BEADFF]"
+              : ""
+          } ${selectedPlatform ? "text-[#633CFF]" : "text-[#333333]"}`}
           placeholder="Select Platform..."
         />
         <button
@@ -127,8 +109,7 @@ const Select: FC<SelectPropsType> = ({
                   width={16}
                   height={16}
                 />
-                <div 
-                className="w-full text-[#333333] text-base font-normal leading-[18px]">
+                <div className="w-full text-[#333333] text-base font-normal leading-[18px]">
                   {platform}
                 </div>
               </div>
@@ -146,5 +127,3 @@ const Select: FC<SelectPropsType> = ({
 };
 
 export default Select;
-
-
