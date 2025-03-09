@@ -111,7 +111,7 @@ const Input: FC<InputPropsType> = ({ register, errors, link, isCreating }) => {
           width={16}
           height={16}
           sizes="(max-width: 768px) 16px, 16px"
-          className="absolute top-1/2 left-4 z-10 transform -translate-y-1/2 "
+          className="absolute top-1/2 left-4  transform -translate-y-1/2 "
         />
       </div>
     </div>

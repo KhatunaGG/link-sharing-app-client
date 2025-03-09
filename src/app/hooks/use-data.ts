@@ -24,6 +24,7 @@ const useLinkData = () => {
 
       if (res.status >= 200 && res.status <= 204) {
         setLinkData([...res.data]);
+        // setLinkData((prevLinks) => [...prevLinks, res.data]);
         setLength(res.data.length);
       }
     } catch (error) {
@@ -31,6 +32,7 @@ const useLinkData = () => {
     }
   };
 
+  
   useEffect(() => {
     getAllLinks();
   }, [accessToken]);

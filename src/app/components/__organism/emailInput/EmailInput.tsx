@@ -1,6 +1,6 @@
 // "use client";
 // import { FC } from "react";
-// import { UseFormRegister, FieldErrors } from "react-hook-form";
+// import { UseFormRegister, FieldErrors, FieldValue, FieldValues } from "react-hook-form";
 // import Image from "next/image";
 
 // export type EmailInputPropsType = {
@@ -14,9 +14,10 @@
 //     password: string;
 //     confirmPassword: string;
 //   }>;
+//   touchedFields: FieldValues;
 // };
 
-// const EmailInput: FC<EmailInputPropsType> = ({ register, errors }) => {
+// const EmailInput: FC<EmailInputPropsType> = ({ register, errors, touchedFields }) => {
 //   return (
 //     <div className="w-full flex flex-col gap-1 relative">
 //       <label
@@ -46,6 +47,8 @@
 
 // export default EmailInput;
 
+
+
 "use client";
 import { FC } from "react";
 import { UseFormRegister, FieldErrors, FieldValues } from "react-hook-form";
@@ -62,14 +65,10 @@ export type EmailInputPropsType = {
     password: string;
     confirmPassword: string;
   }>;
- touchedFields: FieldValues;
+  touchedFields: FieldValues;
 };
 
-const EmailInput: FC<EmailInputPropsType> = ({
-  register,
-  errors,
-  touchedFields,
-}) => {
+const EmailInput: FC<EmailInputPropsType> = ({ register, errors }) => {
   return (
     <div className="w-full flex flex-col gap-1 relative">
       <label
@@ -90,26 +89,9 @@ const EmailInput: FC<EmailInputPropsType> = ({
           <Image src={"/assets/icons/icon-email.svg"} alt={"email"} fill />
         </div>
       </div>
-      {/* {errors.email && (
-        <span className="text-red-500 text-xs absolute -bottom-4 left-0">
-          {errors.email.message}
-        </span>
-      )} */}
-      {errors.email && touchedFields.email && (
+      {errors.email && (
         <span className="text-red-500 text-xs absolute -bottom-4 left-0">{errors.email?.message}</span>
       )}
-
-      {/* {formSubmitted && errors.email && (
-        <span className="text-red-500 text-xs absolute -bottom-4 left-0">
-          {errors.email.message}
-        </span>
-      )} */}
-
-      {/* {(formErrors || Object.keys(errors).length > 0) && errors.email && (
-        <span className="text-red-500 text-xs absolute -bottom-4 left-0">
-          {errors.email.message}
-        </span>
-      )} */}
     </div>
   );
 };

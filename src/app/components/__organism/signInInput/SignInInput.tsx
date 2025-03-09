@@ -1,17 +1,12 @@
-// "use client";
 // import { FC } from "react";
-// import { UseFormRegister, FieldErrors } from "react-hook-form";
+// import { UseFormRegister, FieldErrors } from "react-hook-form";  // Correctly importing types
+// // import { SignInFormData } from "../SignInForm";
 // import Image from "next/image";
+// import { SignInFormData } from "../signInForm/SignInForm";
 
 // export type SignInInputPropsType = {
-//   register: UseFormRegister<{
-//     email: string;
-//     password: string;
-//   }>;
-//   errors: FieldErrors<{
-//     email: string;
-//     password: string;
-//   }>;
+//   register: UseFormRegister<SignInFormData>;  // Use SignInFormData
+//   errors: FieldErrors<SignInFormData>;  // Use SignInFormData
 // };
 
 // const SignInInput: FC<SignInInputPropsType> = ({ register, errors }) => {
@@ -44,18 +39,15 @@
 
 // export default SignInInput;
 
-
-
-
 import { FC } from "react";
-import { UseFormRegister, FieldErrors } from "react-hook-form";  // Correctly importing types
-// import { SignInFormData } from "../SignInForm";  
+import { UseFormRegister, FieldErrors } from "react-hook-form"; // Correctly importing types
+// import { SignInFormData } from "../SignInForm";
 import Image from "next/image";
 import { SignInFormData } from "../signInForm/SignInForm";
 
 export type SignInInputPropsType = {
-  register: UseFormRegister<SignInFormData>;  // Use SignInFormData
-  errors: FieldErrors<SignInFormData>;  // Use SignInFormData
+  register: UseFormRegister<SignInFormData>; // Use SignInFormData
+  errors: FieldErrors<SignInFormData>; // Use SignInFormData
 };
 
 const SignInInput: FC<SignInInputPropsType> = ({ register, errors }) => {
@@ -72,7 +64,14 @@ const SignInInput: FC<SignInInputPropsType> = ({ register, errors }) => {
           id="email"
           type="text"
           placeholder="e.g. alex@email.com"
-          className="w-full border border-[#D9D9D9] rounded-lg py-[12px] pl-[45.5px] text-base font-normal leading-[24px] outline-none"
+
+
+          className={`w-full border border-[#D9D9D9] rounded-lg py-[12px] pl-[45.5px] text-base font-normal leading-[24px] outline-none
+            ${errors.email ? 'border-[#FF3939]' : 'border-[#D9D9D9]'} 
+            focus:outline-none 
+            ${errors.email ? '' : 'focus:border-[#633CFF] focus:shadow-[0px_0px_10px_#BEADFF]'}`}
+
+            
           {...register("email")}
         />
         <div className="w-[16px] h-[16px] absolute top-1/2 left-[17.5px] transform -translate-y-1/2">
@@ -80,7 +79,9 @@ const SignInInput: FC<SignInInputPropsType> = ({ register, errors }) => {
         </div>
       </div>
       {errors.email && (
-        <span className="text-red-500 text-xs absolute -bottom-4 left-0">{errors.email?.message}</span>
+        <span className="text-[#FF3939]  text-xs absolute -bottom-4 left-0">
+          {errors.email?.message}
+        </span>
       )}
     </div>
   );
