@@ -15,7 +15,7 @@ export type LinksDataType = {
   link: string;
   _id: string;
   color?: string;
-  createdAt: string;
+  // createdAt: string;
 };
 
 export type MainContextType = {
@@ -80,8 +80,6 @@ const MainContextProvider = ({ children }: { children: React.ReactNode }) => {
   const getFilePath = async (fileId: string) => {
     if (!accessToken) return;
     if (!fileId) return;
-    console.log(fileId, "fileId");
-
     try {
       if (fileId) {
         const res = await axiosInstance.post(

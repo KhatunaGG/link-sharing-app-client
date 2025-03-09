@@ -4,7 +4,7 @@ import { Logo } from "../../__molecules";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { LinkIcon, Profile } from "../../__atoms";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
 
 const Header = () => {
   const path = usePathname();

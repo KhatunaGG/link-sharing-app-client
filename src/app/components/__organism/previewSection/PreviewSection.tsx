@@ -6,12 +6,33 @@ import { useEffect, useState } from "react";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import { LinkBox } from "../../__molecules";
 import { usePathname } from "next/navigation";
+import { toast, ToastContainer } from "react-toastify";
+import useLinkData from "@/app/hooks/use-data";
 
 const PreviewSection = () => {
   const { user, accessToken } = useAccessToken();
   const [src, setSrc] = useState("");
   const path = usePathname();
   const isPreviewPage = path.includes("preview");
+  const { linkData } = useLinkData();
+  
+
+  const generateShareableLink = () => {
+    const baseUrl = window.location.origin;
+    const currentPath = path;
+    return `${baseUrl}${currentPath}`;
+  };
+
+  const handleShareLink = async () => {
+    const shareableLink = generateShareableLink();
+    try {
+      await navigator.clipboard.writeText(shareableLink);
+      toast.success("Link copied to clipboard!", { position: "top-left" });
+    } catch (error) {
+      console.error("Failed to copy the link: ", error);
+      toast.error("Failed to copy the link.", { position: "top-left" });
+    }
+  };
 
   const getFilePath = async (fileId: string) => {
     if (!accessToken) return;
@@ -51,7 +72,10 @@ const PreviewSection = () => {
               <p>Back to Editor</p>
             </Link>
           </button>
-          <button className="bg-[#633CFF] text-white py-[11px] px-[27px] rounded-lg font-semibold text-base">
+          <button
+            onClick={handleShareLink}
+            className="bg-[#633CFF] text-white py-[11px] px-[27px] rounded-lg font-semibold text-base"
+          >
             Share Link
           </button>
         </div>
@@ -65,7 +89,6 @@ const PreviewSection = () => {
           Share Link
         </button>
       </div>
-      {/* </div> */}
 
       <div className="w-full   flex  items-center justify-center pb-10 bg-transparent  md:absolute md:top-[210px] md:z-10 ">
         <div className=" bg-transparent shadow-none w-[63.2%] md:w-[45.44%]  lg:w-[24.23%] md:bg-white md:shadow-lg rounded-3xl py-[48px] md:px-[56px] flex flex-col items-center gap-[56px]">
@@ -92,10 +115,11 @@ const PreviewSection = () => {
           </div>
 
           <div className="w-full flex flex-col gap-[20px]">
-            <LinkBox isPreviewPage={isPreviewPage} />
+            <LinkBox isPreviewPage={isPreviewPage} data={linkData} />
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

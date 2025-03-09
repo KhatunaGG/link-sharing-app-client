@@ -54,21 +54,14 @@
 
 // export default PasswordInput;
 
-
-
-
-
-
-
-
 import { FC } from "react";
-import { UseFormRegister, FieldErrors } from "react-hook-form"; 
+import { UseFormRegister, FieldErrors } from "react-hook-form";
 import Image from "next/image";
 import { SignInFormData } from "../signInForm/SignInForm";
 
 export type SignInPasswordPropsType = {
-  register: UseFormRegister<SignInFormData>;  // Use SignInFormData
-  errors: FieldErrors<SignInFormData>;  // Use SignInFormData
+  register: UseFormRegister<SignInFormData>; // Use SignInFormData
+  errors: FieldErrors<SignInFormData>; // Use SignInFormData
 };
 
 const SignInPassword: FC<SignInPasswordPropsType> = ({ register, errors }) => {
@@ -82,9 +75,16 @@ const SignInPassword: FC<SignInPasswordPropsType> = ({ register, errors }) => {
       </label>
       <div className="w-full relative">
         <input
-          type="password" 
+          type="password"
           placeholder="Enter your password"
-          className="w-full border border-[#D9D9D9] rounded-lg py-[12px] pl-[45.5px] text-base font-normal leading-[24px] outline-none"
+          className={`w-full border border-[#D9D9D9] rounded-lg py-[12px] pl-[45.5px] text-base font-normal leading-[24px] outline-none
+            ${errors.password ? "border-[#FF3939]" : "border-[#D9D9D9]"}
+             focus:outline-none 
+             ${
+               errors.email
+                 ? ""
+                 : "focus:border-[#633CFF] focus:shadow-[0px_0px_10px_#BEADFF]"
+             }`}
           {...register("password")}
           id="password"
         />

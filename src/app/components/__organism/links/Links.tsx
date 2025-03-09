@@ -50,7 +50,7 @@ const Links = () => {
 
   useEffect(() => {
     getAllLinks?.();
-  }, [accessToken]);
+  }, [accessToken, length]);
 
   const onSubmit = async (formState: LinkItemType) => {
     const isValid = await trigger();
@@ -62,9 +62,9 @@ const Links = () => {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       if (res.status >= 200 && res.status <= 204) {
+        getAllLinks?.();
         reset();
         setShowLink(false);
-        getAllLinks?.();
         toast.success("New link added successfully", {position: "top-left"});
       }
     } catch (error) {

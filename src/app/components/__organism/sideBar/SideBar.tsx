@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useContext } from "react";
 import { LinkBox } from "../../__molecules";
 
+
 const SideBar = () => {
   const context = useContext(MainContext);
   const { src } = context || {};

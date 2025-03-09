@@ -77,11 +77,14 @@ const Select: FC<SelectPropsType> = ({
             name && "hidden"
           } px-4 py-2 flex items-center justify-center absolute right-0 top-0 z-10 transform translate-y-1/2`}
         >
-          <div className="w-[12px] h-[6px] flex items-center justify-center relative">
+          <div className="w-[12px] h-[10px] flex items-center justify-center relative">
             <Image
               src={"/assets/icons/icon-chevron-down.svg"}
               alt={"logo"}
               fill
+              className={`${
+                dropDown ? "rotate-180 transition duration-300" : "rotate-0 transition duration-300"
+              }`}
             />
           </div>
         </button>
