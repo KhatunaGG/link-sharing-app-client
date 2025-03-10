@@ -27,10 +27,6 @@ export type LinkItemPropsType = {
   trigger?: () => Promise<boolean>;
   id?: string;
   reset?: UseFormReset<LinkItemType>;
-
-
-
-
   isCreating?: boolean;
 };
 
@@ -46,9 +42,7 @@ const LinkItem: FC<LinkItemPropsType> = ({
   index,
   id,
   reset,
-
-
-  isCreating=false
+  isCreating = false,
 }) => {
   const { accessToken } = useAccessToken();
   const context = useContext(MainContext);
@@ -57,7 +51,6 @@ const LinkItem: FC<LinkItemPropsType> = ({
   const removeLink = async (id: string) => {
     if (!accessToken) return null;
     try {
-      console.log(id, "id from remove");
       const res = await axiosInstance.delete(`/link/${id}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
@@ -65,7 +58,7 @@ const LinkItem: FC<LinkItemPropsType> = ({
         console.log(res.data, "res.data");
         getAllLinks?.();
         reset?.();
-        toast.success("Link removed successfully", {position: "top-left"});
+        toast.success("Link removed successfully", { position: "top-left" });
       }
     } catch (error) {
       console.log(error);
@@ -105,11 +98,14 @@ const LinkItem: FC<LinkItemPropsType> = ({
         setValue={setValue}
         name={name}
         trigger={trigger}
-
-
         isCreating={isCreating}
       />
-      <Input register={register} errors={errors} link={link}       isCreating={isCreating} />
+      <Input
+        register={register}
+        errors={errors}
+        link={link}
+        isCreating={isCreating}
+      />
     </section>
   );
 };
