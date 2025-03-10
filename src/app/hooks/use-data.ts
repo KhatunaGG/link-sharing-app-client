@@ -32,12 +32,19 @@ const useLinkData = () => {
     }
   };
 
+
+
+  const updatePreviewOrder = (newOrder: LinksDataType[]) => {
+    setLinkData(newOrder);
+  };
+
+
   
   useEffect(() => {
     getAllLinks();
   }, [accessToken]);
 
-  return { linkData, length, getAllLinks };
+  return { linkData, length, getAllLinks,          updatePreviewOrder };
 };
 
 export default useLinkData;

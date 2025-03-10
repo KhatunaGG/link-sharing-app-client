@@ -28,7 +28,7 @@ const OtpCodeModal = ({
 }: OtpCodeModalPropsType) => {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [otpCodeState, setOtpCodeState] = useState<string>("");
-  const router = useRouter()
+  const router = useRouter();
 
   const {
     register,
@@ -73,12 +73,7 @@ const OtpCodeModal = ({
       };
       const res = await axiosInstance.post("/auth/verify", newState);
       if (res.status >= 200 && res.status <= 204) {
-
-        
         router.push("/signIn");
-        
-        
-        // setOtpCodeModal(!otpCodeModal);
         setOtpCodeModal(false);
         reset();
       }

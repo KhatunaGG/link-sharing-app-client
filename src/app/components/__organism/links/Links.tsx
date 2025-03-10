@@ -65,7 +65,7 @@ const Links = () => {
         getAllLinks?.();
         reset();
         setShowLink(false);
-        toast.success("New link added successfully", {position: "top-left"});
+        toast.success("New link added successfully", { position: "top-left" });
       }
     } catch (error) {
       console.log(error);

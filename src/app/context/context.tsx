@@ -25,6 +25,11 @@ export type MainContextType = {
   getFilePath: (v: string) => void;
   src: string | undefined;
   setSrc: Dispatch<SetStateAction<string>>;
+
+
+
+
+  updateLinkOrder: (newOrder: LinksDataType[]) => void;
 };
 
 export const MainContext = createContext<MainContextType | null>(null);
@@ -108,9 +113,32 @@ const MainContextProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [user?.filePath]);
 
+
+
+
+
+
+
+
+
+
+
+
+
+  const updateLinkOrder = (newOrder: LinksDataType[]) => {
+    setLinkData(newOrder);
+  };
+
+
+
+
+
+
+  
+
   return (
     <MainContext.Provider
-      value={{ getAllLinks, linkData, length, getFilePath, src, setSrc }}
+      value={{ getAllLinks, linkData, length, getFilePath, src, setSrc,          updateLinkOrder }}
     >
       {children}
     </MainContext.Provider>
