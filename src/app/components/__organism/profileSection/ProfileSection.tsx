@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import ProfileForm from "../profileForm/ProfileForm";
 import Upload from "../upload/Upload";
 import { z } from "zod";
@@ -144,19 +144,19 @@ const ProfileSection = () => {
   };
 
 
-  const isFormChanged = useMemo(
-    () => watch("firstName") !== user?.firstName ||
-          watch("lastName") !== user?.lastName ||
-          watch("filePath") !== user?.filePath ||
-          file !== null,
-    [user, watch, file]
-  );
+  // const isFormChanged = useMemo(
+  //   () => watch("firstName") !== user?.firstName ||
+  //         watch("lastName") !== user?.lastName ||
+  //         watch("filePath") !== user?.filePath ||
+  //         file !== null,
+  //   [user, watch, file]
+  // );
 
-  // const isFormChanged =
-  // watch("firstName") !== user?.firstName ||
-  // watch("lastName") !== user?.lastName ||
-  // watch("filePath") !== user?.filePath ||
-  // file !== null;
+  const isFormChanged =
+  watch("firstName") !== user?.firstName ||
+  watch("lastName") !== user?.lastName ||
+  watch("filePath") !== user?.filePath ||
+  file !== null;
 
   if (!accessToken) return;
 
@@ -170,7 +170,7 @@ const ProfileSection = () => {
             <h1 className="text-[#333333] font-bold text-[32px] leading-[48px]">
               Profile Details
             </h1>
-            <button type="button" className="text-base font-semibold leading-[24px] text-[#633CFF] py-[11px] px-[27px] rounded-lg border border-[#633CFF] hover:bg-[#BEADFF] hover:text-white transition duration-300 ease-in-out md:w-max md:px-[27px] ">
+            <button type="button" className="text-base font-semibold leading-[24px] text-[#FF3939] py-[11px] px-[27px] rounded-lg border border-[#FF3939] hover:bg-[#FF3939]/20 hover:text-white transition duration-300 ease-in-out md:w-max md:px-[27px] hover:shadow-[0px_0px_10px_#dd9999]">
               Log out
             </button>
           </div>
@@ -181,7 +181,7 @@ const ProfileSection = () => {
         </div>
 
 
-        
+
 
         <div className="w-full flex flex-col gap-6">
           <div className="w-full bg-[#FAFAFA] rounded-[12px] p-[20px] flex flex-col gap-4 md:gap-0 md:flex-row">

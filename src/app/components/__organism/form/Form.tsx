@@ -7,6 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import { Dispatch, SetStateAction } from "react";
 import Link from "next/link";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export const passwordSchema = z
   .string()
@@ -71,11 +73,15 @@ const Form = ({ setOtpCodeModal, setEmail }: FormPropsType) => {
 
       if (res.status >= 200 && res.status <= 204) {
         reset();
-        // setOtpCodeModal(!otpCodeModal);
         setOtpCodeModal(true);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e, "eeeeeeeeeeee");
+      if (axios.isAxiosError(e)) {
+        toast.error(e.response?.data?.message || "An error occurred", {
+          position: "top-left",
+        });
+      }
     }
   };
 
@@ -115,5 +121,3 @@ const Form = ({ setOtpCodeModal, setEmail }: FormPropsType) => {
 };
 
 export default Form;
-
-
