@@ -5,10 +5,9 @@ import Form from "../form/Form";
 import { ToastContainer } from "react-toastify";
 
 const SignUpSection = () => {
-  const [otpCode, setOtpCode] = useState("");
+  // const [otpCode, setOtpCode] = useState("");
   const [otpCodeModal, setOtpCodeModal] = useState(false);
   const [email, setEmail] = useState("");
-  console.log(otpCode, "otpCode");
 
   return (
     <section className="w-full h-full bg-transparent flex items-center justify-center">
@@ -19,9 +18,10 @@ const SignUpSection = () => {
           <div className="w-full relative ">
             {otpCodeModal && (
               <OtpCodeModal
-                setOtpCode={setOtpCode}
+                // setOtpCode={setOtpCode}
                 setOtpCodeModal={setOtpCodeModal}
                 email={email}
+                // otpCode={otpCode}
               />
             )}
             <Form
