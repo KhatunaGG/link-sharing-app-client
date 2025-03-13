@@ -2,7 +2,6 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import ProfileForm from "../profileForm/ProfileForm";
 import Upload from "../upload/Upload";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import useAccessToken from "@/app/hooks/use-token";
@@ -10,25 +9,13 @@ import { axiosInstance } from "@/app/libs/axiosInstance";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { MainContext } from "@/app/context/context";
-
-const MAX_FILE_SIZE = 1024 * 1024;
-const UserUpdateSchema = z.object({
-  firstName: z
-    .string()
-    .min(1, { message: "Name is required" })
-    .max(50, { message: "Too long" }),
-  lastName: z
-    .string()
-    .min(1, { message: "Last Name is required" })
-    .max(70, { message: "Too long" }),
-  filePath: z.string(),
-});
-
-export type UserUpdateType = z.infer<typeof UserUpdateSchema>;
+import { UserUpdateType } from "@/app/interfaces/interface";
+import { UserUpdateSchema } from "@/app/schema/user-update-schema";
+import { MAX_FILE_SIZE } from "@/app/commons/data";
 
 const ProfileSection = () => {
   const [file, setFile] = useState<File | null>(null);
-  const { user, accessToken, getCurranUser } = useAccessToken();
+  const { user, accessToken, getCurranUser, logout } = useAccessToken();
   const context = useContext(MainContext);
   const { getFilePath, src } = context || {};
 
@@ -36,7 +23,7 @@ const ProfileSection = () => {
     if (!str) return "";
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
   }, []);
-  
+
   const {
     register,
     handleSubmit,
@@ -79,7 +66,7 @@ const ProfileSection = () => {
         if (res.status >= 200 && res.status <= 204) {
           awsFilePath = res.data.filePath;
           setFile(null);
-          reset()
+          reset();
         }
       }
 
@@ -143,20 +130,11 @@ const ProfileSection = () => {
     }
   };
 
-
-  // const isFormChanged = useMemo(
-  //   () => watch("firstName") !== user?.firstName ||
-  //         watch("lastName") !== user?.lastName ||
-  //         watch("filePath") !== user?.filePath ||
-  //         file !== null,
-  //   [user, watch, file]
-  // );
-
   const isFormChanged =
-  watch("firstName") !== user?.firstName ||
-  watch("lastName") !== user?.lastName ||
-  watch("filePath") !== user?.filePath ||
-  file !== null;
+    watch("firstName") !== user?.firstName ||
+    watch("lastName") !== user?.lastName ||
+    watch("filePath") !== user?.filePath ||
+    file !== null;
 
   if (!accessToken) return;
 
@@ -164,13 +142,15 @@ const ProfileSection = () => {
     <form onSubmit={handleSubmit(onSubmit)} className="w-full">
       <div className=" w-full h-full flex flex-col gap-10 px-6 pt-6 md:px-10 md:pt-10 md:pb-[154px] lf:pb-[114px]">
         <div className="w-full flex flex-col items-start gap-2">
-
-
           <div className="w-full flex items-center justify-between">
-            <h1 className="text-[#333333] font-bold text-[32px] leading-[48px]">
+            <h1 className="text-[#333333] font-bold text-2xl md:text-[32px] leading-[48px]">
               Profile Details
             </h1>
-            <button type="button" className="text-base font-semibold leading-[24px] text-[#FF3939] py-[11px] px-[27px] rounded-lg border border-[#FF3939] hover:bg-[#FF3939]/20 hover:text-white transition duration-300 ease-in-out md:w-max md:px-[27px] hover:shadow-[0px_0px_10px_#dd9999]">
+            <button
+              onClick={logout}
+              type="button"
+              className="text-sm md:text-base font-semibold leading-[24px] text-[#FF3939] py-[8px] px-[18px] md:py-[11px] md:px-[27px]  rounded-lg border border-[#FF3939] hover:bg-[#FF3939]/20 hover:text-white transition duration-300 ease-in-out md:w-max  hover:shadow-[0px_0px_10px_#dd9999]"
+            >
               Log out
             </button>
           </div>
@@ -179,9 +159,6 @@ const ProfileSection = () => {
             Add your details to create a personal touch to your profile.
           </p>
         </div>
-
-
-
 
         <div className="w-full flex flex-col gap-6">
           <div className="w-full bg-[#FAFAFA] rounded-[12px] p-[20px] flex flex-col gap-4 md:gap-0 md:flex-row">
@@ -214,7 +191,7 @@ const ProfileSection = () => {
         <div className="w-full h-[1px] bg-[#efecec]" />
         <div className="w-full  flex items-center justify-end px-4 md:px-10 py-6 ">
           <button
-          disabled={!isFormChanged}
+            disabled={!isFormChanged}
             type="submit"
             className="text-white w-full py-[11px] font-semibold bg-[#633CFF] flex items-center justify-center rounded-[8px] hover:bg-[#BEADFF] transition duration-300 ease-in-out md:w-max md:px-[27px] "
           >

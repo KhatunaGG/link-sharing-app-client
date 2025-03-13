@@ -1,13 +1,7 @@
 import { useEffect, useState } from "react";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import useAccessToken from "@/app/hooks/use-token";
-
-export type LinksDataType = {
-  name: string;
-  link: string;
-  _id: string;
-  color?: string;
-};
+import { LinksDataType } from "../interfaces/interface";
 
 const useLinkData = () => {
   const [linkData, setLinkData] = useState<LinksDataType[]>([]);
@@ -24,7 +18,6 @@ const useLinkData = () => {
 
       if (res.status >= 200 && res.status <= 204) {
         setLinkData([...res.data]);
-        // setLinkData((prevLinks) => [...prevLinks, res.data]);
         setLength(res.data.length);
       }
     } catch (error) {
@@ -32,19 +25,15 @@ const useLinkData = () => {
     }
   };
 
-
-
   const updatePreviewOrder = (newOrder: LinksDataType[]) => {
     setLinkData(newOrder);
   };
 
-
-  
   useEffect(() => {
     getAllLinks();
   }, [accessToken]);
 
-  return { linkData, length, getAllLinks,          updatePreviewOrder };
+  return { linkData, length, getAllLinks, updatePreviewOrder };
 };
 
 export default useLinkData;

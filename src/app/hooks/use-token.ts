@@ -2,24 +2,13 @@ import { deleteCookie, getCookie } from "cookies-next";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { axiosInstance } from "../libs/axiosInstance";
-
-export type UserType = {
-  email: string;
-  updatedAt: string;
-  userName: string;
-  links: string[];
-  _id: string;
-  firstName: string;
-  lastName: string;
-  filePath: string;
-};
+import { UserType } from "../interfaces/interface";
 
 const useAccessToken = () => {
   const router = useRouter();
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<UserType | null>(null);
-
 
   const getCurranUser = async (accessToken: string | undefined) => {
     try {
@@ -36,7 +25,7 @@ const useAccessToken = () => {
     deleteCookie("accessToken");
     setAccessToken(null);
     setUser(null);
-    router.push("/sign-up");
+    router.push("/");
   };
 
   useEffect(() => {

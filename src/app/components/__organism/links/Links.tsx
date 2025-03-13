@@ -2,29 +2,30 @@
 import { useContext, useEffect, useState } from "react";
 import EmptyLinkPage from "../emptyLinkPage/EmptyLinkPage";
 import LinkItem from "../linkItem/LinkItem";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import useAccessToken from "@/app/hooks/use-token";
 import { MainContext } from "@/app/context/context";
 import { toast } from "react-toastify";
+import { LinkItemType } from "@/app/interfaces/interface";
+import { linkSchema } from "@/app/schema/link-schema";
 
-export const linkSchema = z.object({
-  name: z.string().min(1, { message: "Name is required" }),
-  link: z
-    .string()
-    .min(1, { message: "Link is required" })
-    .url({ message: "Link must be a valid URL" }),
-});
+// export const linkSchema = z.object({
+//   name: z.string().min(1, { message: "Name is required" }),
+//   link: z
+//     .string()
+//     .min(1, { message: "Link is required" })
+//     .url({ message: "Link must be a valid URL" }),
+// });
 
-export type LinkItemType = z.infer<typeof linkSchema>;
-export type LinksDataType = {
-  name: string;
-  link: string;
-  _id: string;
-  color: string;
-};
+// export type LinkItemType = z.infer<typeof linkSchema>;
+// export type LinksDataType = {
+//   name: string;
+//   link: string;
+//   _id: string;
+//   color: string;
+// };
 
 const Links = () => {
   const [showLink, setShowLink] = useState(false);

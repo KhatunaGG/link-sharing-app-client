@@ -1,7 +1,4 @@
-
-export type ProfilePropsType = {
-  isActive: boolean;
-};
+import { ProfilePropsType } from "@/app/interfaces/interface";
 
 const Profile = ({ isActive }: ProfilePropsType) => {
   return (

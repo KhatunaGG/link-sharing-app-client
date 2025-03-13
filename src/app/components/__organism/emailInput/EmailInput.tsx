@@ -47,26 +47,24 @@
 
 // export default EmailInput;
 
-
-
 "use client";
 import { FC } from "react";
-import { UseFormRegister, FieldErrors, FieldValues } from "react-hook-form";
 import Image from "next/image";
+import { EmailInputPropsType } from "@/app/interfaces/interface";
 
-export type EmailInputPropsType = {
-  register: UseFormRegister<{
-    email: string;
-    password: string;
-    confirmPassword: string;
-  }>;
-  errors: FieldErrors<{
-    email: string;
-    password: string;
-    confirmPassword: string;
-  }>;
-  touchedFields: FieldValues;
-};
+// export type EmailInputPropsType = {
+//   register: UseFormRegister<{
+//     email: string;
+//     password: string;
+//     confirmPassword: string;
+//   }>;
+//   errors: FieldErrors<{
+//     email: string;
+//     password: string;
+//     confirmPassword: string;
+//   }>;
+//   touchedFields: FieldValues;
+// };
 
 const EmailInput: FC<EmailInputPropsType> = ({ register, errors }) => {
   return (
@@ -90,7 +88,9 @@ const EmailInput: FC<EmailInputPropsType> = ({ register, errors }) => {
         </div>
       </div>
       {errors.email && (
-        <span className="text-red-500 text-xs absolute -bottom-4 left-0">{errors.email?.message}</span>
+        <span className="text-red-500 text-xs absolute -bottom-4 left-0">
+          {errors.email?.message}
+        </span>
       )}
     </div>
   );

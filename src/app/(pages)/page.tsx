@@ -1,5 +1,3 @@
-// import Image from "next/image";
-
 import SignUpSection from "../components/__organism/signUpSection/SignUpSection";
 
 export default function Home() {

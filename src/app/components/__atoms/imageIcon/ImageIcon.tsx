@@ -1,6 +1,4 @@
-export type ImageIconPropsType = {
-  src?: string;
-};
+import { ImageIconPropsType } from "@/app/interfaces/interface";
 
 const ImageIcon = ({ src }: ImageIconPropsType) => {
   return (
@@ -13,7 +11,6 @@ const ImageIcon = ({ src }: ImageIconPropsType) => {
       className="transition duration-300 ease-in-out"
     >
       <path
-        // fill={src ? "#fff" : "#633CFF"}
         fill="#633CFF"
         className={`${
           src

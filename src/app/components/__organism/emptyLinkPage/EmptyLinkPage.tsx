@@ -1,10 +1,10 @@
-"use client"
 import Image from "next/image";
 
-const EmptyLinkPage = (
-) => {
+const EmptyLinkPage = () => {
   return (
-    <div className={` w-full py-[46px] flex flex-col items-center justify-center gap-10 bg-[#FAFAFA] rounded-[12px] md:py-[82.5px] lg:py-[62.5px]`}>
+    <div
+      className={` w-full py-[46px] flex flex-col items-center justify-center gap-10 bg-[#FAFAFA] rounded-[12px] md:py-[82.5px] lg:py-[62.5px]`}
+    >
       <div className="w-[249.53px] h-[160px] flex items-center justify-center relative">
         <Image
           src={"/assets/images/illustration-empty.svg"}

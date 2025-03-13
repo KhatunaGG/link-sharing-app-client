@@ -1,16 +1,12 @@
+import { LogoPropsType } from "@/app/interfaces/interface";
 import Image from "next/image";
-
-export type LogoPropsType = {
-  isDashboard?: boolean;
-  isProfile?: boolean;
-};
 
 const Logo = ({ isDashboard, isProfile }: LogoPropsType) => {
   return (
     <div
-    className={`${
-      isDashboard || isProfile ? "md:pb-0" : "md:pb-[51px]"
-    }  flex items-center md:justify-center gap-[10.83px]`}
+      className={`${
+        isDashboard || isProfile ? "md:pb-0" : "md:pb-[51px]"
+      }  flex items-center md:justify-center gap-[10.83px]`}
     >
       <div
         className={`${

@@ -1,6 +1,4 @@
-export type TitlePropsType = {
-  isSignInSection?: boolean;
-};
+import { TitlePropsType } from "@/app/interfaces/interface";
 
 const Title = ({ isSignInSection }: TitlePropsType) => {
   return (

@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { axiosInstance } from "@/app/libs/axiosInstance";
@@ -11,16 +10,8 @@ import { toast } from "react-toastify";
 import SignInInput from "../signInInput/SignInInput";
 import SignInPassword from "../signInPassword/SignInPassword";
 import Link from "next/link";
-
-export const signInSchema = z.object({
-  email: z.string().email(),
-  password: z
-    .string()
-    .min(4, "At least 4 characters")
-    .max(11, "No more than 11 characters"),
-});
-
-export type SignInFormData = z.infer<typeof signInSchema>;
+import { SignInFormData } from "@/app/interfaces/interface";
+import { signInSchema } from "@/app/schema/sign-in-schema";
 
 const SignInForm = () => {
   const [accessToken, setAccessToken] = useState("");
@@ -74,8 +65,6 @@ const SignInForm = () => {
       }
     }
   };
-
-  // if (!accessToken) return null;
 
   return (
     <form
