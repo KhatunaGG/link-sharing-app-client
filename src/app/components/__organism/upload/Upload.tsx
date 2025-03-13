@@ -1,17 +1,11 @@
 "use client";
-import { Dispatch, SetStateAction, useContext } from "react";
+import { useContext } from "react";
 import { ImageIcon } from "../../__atoms";
 import useAccessToken from "@/app/hooks/use-token";
 import Image from "next/image";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import { MainContext } from "@/app/context/context";
-
-export type UploadPropsType = {
-  file: File | null;
-  setFile: Dispatch<SetStateAction<File | null>>;
-  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  src: string | undefined;
-};
+import { UploadPropsType } from "@/app/interfaces/interface";
 
 const Upload = ({ handleFileChange, file, src }: UploadPropsType) => {
   const { accessToken, user } = useAccessToken();

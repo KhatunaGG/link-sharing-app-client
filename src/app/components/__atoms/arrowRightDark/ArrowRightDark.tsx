@@ -1,8 +1,4 @@
-import React from "react";
-
-export type ArrowRightDarkPropsType = {
-  isFrMentor: boolean;
-};
+import { ArrowRightDarkPropsType } from "@/app/interfaces/interface";
 
 const ArrowRightDark = ({ isFrMentor }: ArrowRightDarkPropsType) => {
   return (

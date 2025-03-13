@@ -1,51 +1,51 @@
 "use client";
 import EmailInput from "../emailInput/EmailInput";
 import PasswordInput from "../passwordInput/PasswordInput";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { axiosInstance } from "@/app/libs/axiosInstance";
-import { Dispatch, SetStateAction } from "react";
 import Link from "next/link";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { signUpSchema } from "@/app/schema/form-schema";
+import { FormPropsType, SignUpFormData } from "@/app/interfaces/interface";
 
-export const passwordSchema = z
-  .string()
-  .min(4, "Password must be at least 4 characters")
-  .max(11, "Password must be no more than 11 characters");
+// export const passwordSchema = z
+//   .string()
+//   .min(4, "Password must be at least 4 characters")
+//   .max(11, "Password must be no more than 11 characters");
 
-export const confirmPasswordSchema = z
-  .object({
-    password: passwordSchema,
-    confirmPassword: z
-      .string()
-      .min(4, "Confirm password must be at least 4 characters")
-      .nonempty("Confirm password is required"),
-  })
-  .superRefine((data, ctx) => {
-    if (data.password !== data.confirmPassword) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ["confirmPassword"],
-        message: "Passwords don't match",
-      });
-    }
-  });
+// export const confirmPasswordSchema = z
+//   .object({
+//     password: passwordSchema,
+//     confirmPassword: z
+//       .string()
+//       .min(4, "Confirm password must be at least 4 characters")
+//       .nonempty("Confirm password is required"),
+//   })
+//   .superRefine((data, ctx) => {
+//     if (data.password !== data.confirmPassword) {
+//       ctx.addIssue({
+//         code: z.ZodIssueCode.custom,
+//         path: ["confirmPassword"],
+//         message: "Passwords don't match",
+//       });
+//     }
+//   });
 
-export const signUpSchema = z
-  .object({
-    email: z.string().min(1, "Email is required").email("Invalid email format"),
-  })
-  .and(confirmPasswordSchema);
+// export const signUpSchema = z
+//   .object({
+//     email: z.string().min(1, "Email is required").email("Invalid email format"),
+//   })
+//   .and(confirmPasswordSchema);
 
-export type SignUpFormData = z.infer<typeof signUpSchema>;
+// export type SignUpFormData = z.infer<typeof signUpSchema>;
 
-export type FormPropsType = {
-  setOtpCodeModal: Dispatch<SetStateAction<boolean>>;
-  otpCodeModal: boolean;
-  setEmail: Dispatch<SetStateAction<string>>;
-};
+// export type FormPropsType = {
+//   setOtpCodeModal: Dispatch<SetStateAction<boolean>>;
+//   otpCodeModal: boolean;
+//   setEmail: Dispatch<SetStateAction<string>>;
+// };
 
 const Form = ({ setOtpCodeModal, setEmail }: FormPropsType) => {
   const {
@@ -76,7 +76,6 @@ const Form = ({ setOtpCodeModal, setEmail }: FormPropsType) => {
         setOtpCodeModal(true);
       }
     } catch (e) {
-      console.log(e, "eeeeeeeeeeee");
       if (axios.isAxiosError(e)) {
         toast.error(e.response?.data?.message || "An error occurred", {
           position: "top-left",

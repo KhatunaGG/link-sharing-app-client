@@ -1,26 +1,27 @@
 "use client";
 import { platformData } from "@/app/commons/data";
 import Image from "next/image";
-import {
-  FieldErrors,
-  UseFormRegister,
-  UseFormSetValue,
-  UseFormTrigger,
-} from "react-hook-form";
-import { LinkItemType } from "../links/Links";
-import { Dispatch, FC, SetStateAction, useState } from "react";
+// import {
+//   FieldErrors,
+//   UseFormRegister,
+//   UseFormSetValue,
+//   UseFormTrigger,
+// } from "react-hook-form";
+// import { LinkItemType } from "../links/Links";
+import { FC, useState } from "react";
 import useLinkUtils from "@/app/hooks/use-linkUtils";
+import { SelectPropsType } from "@/app/interfaces/interface";
 
-export type SelectPropsType = {
-  register?: UseFormRegister<LinkItemType>;
-  errors?: FieldErrors<LinkItemType>;
-  setDropDown?: Dispatch<SetStateAction<boolean>>;
-  dropDown?: boolean;
-  setValue?: UseFormSetValue<LinkItemType>;
-  name?: string;
-  trigger?: UseFormTrigger<LinkItemType>;
-  isCreating: boolean;
-};
+// export type SelectPropsType = {
+//   register?: UseFormRegister<LinkItemType>;
+//   errors?: FieldErrors<LinkItemType>;
+//   setDropDown?: Dispatch<SetStateAction<boolean>>;
+//   dropDown?: boolean;
+//   setValue?: UseFormSetValue<LinkItemType>;
+//   name?: string;
+//   trigger?: UseFormTrigger<LinkItemType>;
+//   isCreating: boolean;
+// };
 
 const Select: FC<SelectPropsType> = ({
   register,
@@ -83,7 +84,9 @@ const Select: FC<SelectPropsType> = ({
               alt={"logo"}
               fill
               className={`${
-                dropDown ? "rotate-180 transition duration-300" : "rotate-0 transition duration-300"
+                dropDown
+                  ? "rotate-180 transition duration-300"
+                  : "rotate-0 transition duration-300"
               }`}
             />
           </div>

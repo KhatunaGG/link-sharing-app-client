@@ -1,12 +1,4 @@
-"use client";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { UserUpdateType } from "../profileSection/ProfileSection";
-
-export type ProfileFormType = {
-  register: UseFormRegister<UserUpdateType>;
-  errors: FieldErrors<UserUpdateType>;
-  userEmail: string | undefined;
-};
+import { ProfileFormType } from "@/app/interfaces/interface";
 
 const ProfileForm = ({ register, errors, userEmail }: ProfileFormType) => {
   return (
@@ -32,7 +24,7 @@ const ProfileForm = ({ register, errors, userEmail }: ProfileFormType) => {
         )}
       </div>
 
-      <div className="w-full flex flex-col gap-1 md:gap-0 md:flex-row reletive">
+      <div className="w-full flex flex-col gap-1 md:gap-0 md:flex-row relative">
         <label
           htmlFor=""
           className="text-[#737373] text-xs leading-[18px] font-normal md:text-base md:leading-[24px] md:w-[42.66%] lg:w[37.20%] flex items-center justify-start"

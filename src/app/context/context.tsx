@@ -1,36 +1,8 @@
 "use client";
-import {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import { createContext, useEffect, useState } from "react";
 import { axiosInstance } from "../libs/axiosInstance";
-
 import useAccessToken from "../hooks/use-token";
-
-export type LinksDataType = {
-  name: string;
-  link: string;
-  _id: string;
-  color?: string;
-  // createdAt: string;
-};
-
-export type MainContextType = {
-  getAllLinks: () => Promise<void>;
-  linkData: LinksDataType[];
-  length: number;
-  getFilePath: (v: string) => void;
-  src: string | undefined;
-  setSrc: Dispatch<SetStateAction<string>>;
-
-
-
-
-  updateLinkOrder: (newOrder: LinksDataType[]) => void;
-};
+import { LinksDataType, MainContextType } from "../interfaces/interface";
 
 export const MainContext = createContext<MainContextType | null>(null);
 
@@ -60,27 +32,6 @@ const MainContextProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     getAllLinks();
   }, [accessToken]);
-
-  // const getFilePath = async (fileId: string) => {
-  //   if (!accessToken) return;
-  //   try {
-  //     const res = await axiosInstance.post(
-  //       "auth/getImage",
-  //       { fileId },
-  //       {
-  //         headers: { Authorization: `Bearer ${accessToken}` },
-  //       }
-  //     );
-  //     if (res.status >= 200 && res.status <= 204) {
-  //       const base64Image = res.data;
-  //       setSrc(base64Image);
-  //     }
-  //   } catch (e) {
-  //     console.log(e);
-
-  //     setSrc("");
-  //   }
-  // };
 
   const getFilePath = async (fileId: string) => {
     if (!accessToken) return;
@@ -113,32 +64,21 @@ const MainContextProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [user?.filePath]);
 
-
-
-
-
-
-
-
-
-
-
-
-
   const updateLinkOrder = (newOrder: LinksDataType[]) => {
     setLinkData(newOrder);
   };
 
-
-
-
-
-
-  
-
   return (
     <MainContext.Provider
-      value={{ getAllLinks, linkData, length, getFilePath, src, setSrc,          updateLinkOrder }}
+      value={{
+        getAllLinks,
+        linkData,
+        length,
+        getFilePath,
+        src,
+        setSrc,
+        updateLinkOrder,
+      }}
     >
       {children}
     </MainContext.Provider>
