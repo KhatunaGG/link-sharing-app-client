@@ -1,27 +1,10 @@
 "use client";
 import { platformData } from "@/app/commons/data";
 import Image from "next/image";
-// import {
-//   FieldErrors,
-//   UseFormRegister,
-//   UseFormSetValue,
-//   UseFormTrigger,
-// } from "react-hook-form";
-// import { LinkItemType } from "../links/Links";
+
 import { FC, useState } from "react";
 import useLinkUtils from "@/app/hooks/use-linkUtils";
 import { SelectPropsType } from "@/app/interfaces/interface";
-
-// export type SelectPropsType = {
-//   register?: UseFormRegister<LinkItemType>;
-//   errors?: FieldErrors<LinkItemType>;
-//   setDropDown?: Dispatch<SetStateAction<boolean>>;
-//   dropDown?: boolean;
-//   setValue?: UseFormSetValue<LinkItemType>;
-//   name?: string;
-//   trigger?: UseFormTrigger<LinkItemType>;
-//   isCreating: boolean;
-// };
 
 const Select: FC<SelectPropsType> = ({
   register,
@@ -31,7 +14,6 @@ const Select: FC<SelectPropsType> = ({
   setValue,
   name,
   trigger,
-
   isCreating,
 }) => {
   const [selectedPlatform, setSelectedPlatform] = useState(name || "");
@@ -76,7 +58,7 @@ const Select: FC<SelectPropsType> = ({
           type="button"
           className={`${
             name && "hidden"
-          } px-4 py-2 flex items-center justify-center absolute right-0 top-0 z-10 transform translate-y-1/2`}
+          } px-4 py-2 flex items-center justify-center absolute right-0 top-1/2 z-10 transform -translate-y-1/2`}
         >
           <div className="w-[12px] h-[10px] flex items-center justify-center relative">
             <Image
