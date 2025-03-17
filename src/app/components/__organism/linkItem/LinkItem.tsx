@@ -2,34 +2,12 @@
 import Image from "next/image";
 import Select from "../select/Select";
 import { Input } from "../../__molecules";
-// import {
-//   FieldErrors,
-//   UseFormRegister,
-//   UseFormReset,
-//   UseFormSetValue,
-// } from "react-hook-form";
-import { FC,  useContext } from "react";
-
+import { FC, useContext } from "react";
 import { axiosInstance } from "@/app/libs/axiosInstance";
 import useAccessToken from "@/app/hooks/use-token";
 import { MainContext } from "@/app/context/context";
 import { toast } from "react-toastify";
 import { LinkItemPropsType } from "@/app/interfaces/interface";
-
-// export type LinkItemPropsType = {
-//   register?: UseFormRegister<LinkItemType>;
-//   errors?: FieldErrors<LinkItemType>;
-//   setDropDown?: Dispatch<SetStateAction<boolean>>;
-//   dropDown?: boolean;
-//   setValue?: UseFormSetValue<LinkItemType>;
-//   name?: string;
-//   link?: string;
-//   index?: number;
-//   trigger?: () => Promise<boolean>;
-//   id?: string;
-//   reset?: UseFormReset<LinkItemType>;
-//   isCreating?: boolean;
-// };
 
 const LinkItem: FC<LinkItemPropsType> = ({
   register,

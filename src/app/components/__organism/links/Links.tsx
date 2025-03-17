@@ -11,22 +11,6 @@ import { toast } from "react-toastify";
 import { LinkItemType } from "@/app/interfaces/interface";
 import { linkSchema } from "@/app/schema/link-schema";
 
-// export const linkSchema = z.object({
-//   name: z.string().min(1, { message: "Name is required" }),
-//   link: z
-//     .string()
-//     .min(1, { message: "Link is required" })
-//     .url({ message: "Link must be a valid URL" }),
-// });
-
-// export type LinkItemType = z.infer<typeof linkSchema>;
-// export type LinksDataType = {
-//   name: string;
-//   link: string;
-//   _id: string;
-//   color: string;
-// };
-
 const Links = () => {
   const [showLink, setShowLink] = useState(false);
   const [dropDown, setDropDown] = useState(false);

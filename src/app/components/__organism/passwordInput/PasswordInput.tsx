@@ -18,7 +18,7 @@ const PasswordInput: FC<PasswordInputProps> = ({
         </label>
         <div className="w-full relative">
           <input
-            type="text"
+            type="password"
             placeholder="Enter your password"
             className="w-full border border-[#D9D9D9] rounded-lg  py-[12px] pl-[45.5px] text-base font-normal leading-[24px] outline-none"
             {...register("password")}
@@ -44,7 +44,7 @@ const PasswordInput: FC<PasswordInputProps> = ({
         </label>
         <div className="w-full relative">
           <input
-            type="text"
+            type="password"
             placeholder="At least 4 characters"
             className="w-full border border-[#D9D9D9] rounded-lg  py-[12px] pl-[45.5px] text-base font-normal leading-[24px] outline-none"
             {...register("confirmPassword")}
